@@ -4,12 +4,13 @@ import com.munnitorbackend.Model.User;
 import com.munnitorbackend.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImplement implements IUserService {
+public class UserServiceImplement implements UserDetailsService,IUserService {
 
     @Autowired
     private UserRepo repo;

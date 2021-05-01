@@ -1,6 +1,7 @@
 package com.munnitorbackend.Model;
 
 import com.sun.istack.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +30,7 @@ public class User implements UserDetails {
     @NotNull
     private String password;
 
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     @Column(name = "birth_date")
     private Date birthDate;
 
