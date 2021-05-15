@@ -1,5 +1,10 @@
 package com.munnitorbackend.Model;
 
+import com.sun.istack.NotNull;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +15,19 @@ public class Empleado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_empleado")
     private Long id;
+
+    @JoinColumn(name="id_direccion", referencedColumnName = "id_direccion")
+    @OneToOne
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    @NotNull
+    private Direccion direccion;
+
+    @JoinColumn(name="id_usuario", referencedColumnName="id_usuario")
+    @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private User user;
+
 
     @Column(name = "nombre_empleado", length = 40, nullable = false)
     private String nombre;

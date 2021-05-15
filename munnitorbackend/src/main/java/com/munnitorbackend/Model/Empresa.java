@@ -1,17 +1,37 @@
 package com.munnitorbackend.Model;
 
 import com.sun.istack.NotNull;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="empresas")
 public class Empresa {
-
     @Id
     @GeneratedValue (strategy =GenerationType.IDENTITY)
     @Column(name="id_empresa")
     private Long id;
+
+    @JoinColumn(name = "id_empleado", referencedColumnName = "id_empleado")
+    @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private Empleado empleado;
+
+    @JoinColumn(name ="id_tambo", referencedColumnName = "id_tambo")
+    @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private Tambo tambo;
+
+    @JoinColumn(name ="id_direccion", referencedColumnName = "id_direccion")
+    @OneToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private Direccion direccion;
 
     @Column(name = "razon_social")
     @NotNull

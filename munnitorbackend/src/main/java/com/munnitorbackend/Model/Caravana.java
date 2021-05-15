@@ -45,6 +45,9 @@ public class Caravana {
     @Column(name = "rango_impresor",length = 15,nullable = false)
     private String rangoImpresor;
 
+
+
+
     public Caravana() {
         super();
     }

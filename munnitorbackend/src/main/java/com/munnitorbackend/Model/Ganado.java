@@ -1,5 +1,9 @@
 package com.munnitorbackend.Model;
 
+import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -12,6 +16,26 @@ public class Ganado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ganado")
     private Long id;
+
+    @JoinColumn(name = "id_caravana", referencedColumnName = "id_ganado")
+    @OneToOne
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    @Nullable
+    private Caravana caravana;
+
+    @JoinColumn(name="id_tambo", referencedColumnName = "id_tambo")
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private Tambo tambo;
+
+    @JoinColumn(name = "id_vacuna", referencedColumnName = "id_vacuna")
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Nullable
+    private Vacuna vacuna;
+
+    
 
     @Column(length = 10, name = "cantidad_de_pasos")
     private int pasos;

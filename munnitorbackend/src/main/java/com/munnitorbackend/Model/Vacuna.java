@@ -12,6 +12,8 @@ public class Vacuna {
     @Column(name = "id_vacunas")
     private Long id;
 
+    
+
     @Column
     @NotNull
     private String nombre;
