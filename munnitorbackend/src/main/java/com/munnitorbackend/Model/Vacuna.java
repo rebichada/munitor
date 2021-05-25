@@ -12,8 +12,6 @@ public class Vacuna {
     @Column(name = "id_vacunas")
     private Long id;
 
-    
-
     @Column
     @NotNull
     private String nombre;
@@ -21,6 +19,29 @@ public class Vacuna {
     @Column(length = 45)
     @NotNull
     private String tipo;
+
+    @Column
+    @NotNull
+    private Integer cantidad;
+
+    public Vacuna(Long id, String nombre, String tipo, Integer cantidad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.cantidad = cantidad;
+    }
+
+    public Vacuna(){
+        super();
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
 
     public void setId(Long id) {
         this.id = id;

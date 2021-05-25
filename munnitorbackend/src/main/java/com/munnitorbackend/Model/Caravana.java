@@ -1,5 +1,9 @@
 package com.munnitorbackend.Model;
 
+import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,6 +17,12 @@ public class Caravana {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_caravana")
     private Long id;
+
+    @JoinColumn(name ="id_empresa", referencedColumnName = "id_empresa")
+    @OneToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private Empresa empresa;
 
     @Column(name = "id_internacional",nullable = false,length = 5)
     private String idInternacional;
@@ -44,9 +54,6 @@ public class Caravana {
 
     @Column(name = "rango_impresor",length = 15,nullable = false)
     private String rangoImpresor;
-
-
-
 
     public Caravana() {
         super();

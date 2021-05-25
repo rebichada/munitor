@@ -1,6 +1,7 @@
 package com.munnitorbackend.Model;
 
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -26,6 +27,12 @@ public class Empresa {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Tambo tambo;
+
+    @JoinColumn(name ="id_vacuna", referencedColumnName = "id_vacuna")
+    @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Nullable
+    private Vacuna vacuna;
 
     @JoinColumn(name ="id_direccion", referencedColumnName = "id_direccion")
     @OneToOne(optional = false)
@@ -56,6 +63,38 @@ public class Empresa {
         this.cuit = cuit;
         this.email = email;
         this.telefono = telefono;
+    }
+
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    public Tambo getTambo() {
+        return tambo;
+    }
+
+    public void setTambo(Tambo tambo) {
+        this.tambo = tambo;
+    }
+
+    public Vacuna getVacuna() {
+        return vacuna;
+    }
+
+    public void setVacuna(Vacuna vacuna) {
+        this.vacuna = vacuna;
+    }
+
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
     public Long getId() {

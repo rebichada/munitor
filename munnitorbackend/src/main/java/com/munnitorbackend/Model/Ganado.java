@@ -29,13 +29,6 @@ public class Ganado {
     @NotNull
     private Tambo tambo;
 
-    @JoinColumn(name = "id_vacuna", referencedColumnName = "id_vacuna")
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @Nullable
-    private Vacuna vacuna;
-
-    
 
     @Column(length = 10, name = "cantidad_de_pasos")
     private int pasos;

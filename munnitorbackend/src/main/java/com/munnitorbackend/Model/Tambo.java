@@ -2,6 +2,8 @@ package com.munnitorbackend.Model;
 
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -12,6 +14,12 @@ public class Tambo {
     @GeneratedValue(strategy =GenerationType.IDENTITY)
     @Column(name = "id_tambo")
     private Long id;
+
+    @JoinColumn(name ="id_direccion", referencedColumnName = "id_direccion")
+    @OneToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private Direccion direccion;
 
     @Column(name = "nombre_tambo", nullable = false,length = 100)
     private String nombreTambo;
