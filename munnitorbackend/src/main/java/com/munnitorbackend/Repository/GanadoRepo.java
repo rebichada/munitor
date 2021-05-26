@@ -103,19 +103,19 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.fechaDeNacimiento <=:edad")
     List<Ganado> findByFechaDeNacimientoIsLessThanEqual(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("edad") Date edad);
 
-    //obtener las vacas donde la edad >= X (por ejemplo para saber si son terneros, novillos, vacas, toros o animales viejos)
+    //obtener las vacas donde la fecha >= X (por ejemplo para saber si son terneros, novillos, vacas, toros o animales viejos)
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
             "INNER JOIN Empresa e ON e.tambo.id=t.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
-            "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.fechaDeNacimiento >=:edad")
-    List<Ganado> findByFechaDeNacimientoIsHigherThanEqual(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("edad") Date edad);
+            "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.fechaDeNacimiento >=:fecha")
+    List<Ganado> findByFechaDeNacimientoIsHigherThanEqual(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("fecha") Date edad);
 
-    //obtener las vacas de X edad_desde e Y edad_hasta
+    //obtener las vacas de X fecha_desde e Y fecha_hasta
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
             "INNER JOIN Empresa e ON e.tambo.id=t.id " +
             "INNER JOIN Caravana c ON c.id=g.caravana.id " +
-            "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.fechaDeNacimiento between :edad_desde and :edad_hasta")
-    List<Ganado> findByRangeFechaDeNacimiento(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("edad_desde") Date edad_desde, @Param("edad_hasta") Date edad_hasta);
+            "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.fechaDeNacimiento between :fecha_desde and :fecha_hasta")
+    List<Ganado> findByRangeFechaDeNacimiento(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("fecha_desde") Date edad_desde, @Param("fecha_hasta") Date edad_hasta);
 
     //obtener un listado de las vacas con X partos
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
@@ -125,20 +125,20 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
     List<Ganado> findByCantidadServidas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("cant_servidas") Integer cant_servidas);
 
     //obtener las vacas de X empresa para Y tambo e Z codigo de caravana
-    @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id" +
-            " INNER JOIN Empresa e ON e.tambo.id=t.id " +
-            "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
+    @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Caravana c ON c.id=g.caravana.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo " +
             "AND c.id=:codigo_caravana")
-    List<Ganado> findByCaravanaEquals(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("codigo_caravana") Long codigo_caravana);
+    Ganado findByCaravanaEquals(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("codigo_caravana") Long codigo_caravana);
 
     //obtener las vacas de X empresa para Y tambo e Z codigo de caravana (CUIG)
-    @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id" +
-            " INNER JOIN Empresa e ON e.tambo.id=t.id " +
+    @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo " +
             "AND c.CUIG LIKE :CUIG")
-    List<Ganado> findByCaravanaLike(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("CUIG") String CUIG);
+    List<Ganado> findByCUIDCaravanaLike(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("CUIG") String CUIG);
 
 
 
