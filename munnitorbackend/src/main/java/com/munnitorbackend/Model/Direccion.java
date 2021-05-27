@@ -1,5 +1,8 @@
 package com.munnitorbackend.Model;
 
+import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
+
 import javax.persistence.*;
 
 @Entity

@@ -29,27 +29,16 @@ public class Ganado {
     @NotNull
     private Tambo tambo;
 
-
-    @Column(length = 10, name = "cantidad_de_pasos")
-    private int pasos;
-
-    @Column(name = "bool_comio")
-    private boolean comio;
-
-    private double temperatura;
-
     @Column(nullable = false, length = 1)
     private char sexo;
 
     @Column(name = "cantidad_servidas", length = 1)
     private int cantidadServidas;
 
-    @Column(name = "cantidad_comio", length = 2)
-    private int cantidadComio;
+    @NotNull
+    private String descripcion;
 
-    private  double peso;
-
-    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "fecha_de_nacimiento")
     private Date fechaDeNacimiento;
 
@@ -57,15 +46,21 @@ public class Ganado {
         super();
     }
 
-    public Ganado(Long id, int pasos, boolean comio, double temperatura, char sexo, int cantidadServidas, int cantidadComio, double peso, Date fechaDeNacimiento) {
+    public Ganado(Long id, char sexo, String descripcion, Date fechaDeNacimiento,int cantidadServidas) {
         this.id = id;
-        this.pasos = pasos;
-        this.comio = comio;
-        this.temperatura = temperatura;
         this.sexo = sexo;
         this.cantidadServidas = cantidadServidas;
-        this.cantidadComio = cantidadComio;
-        this.peso = peso;
+        this.descripcion = descripcion;
+        this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+
+    public Ganado(Long id, Caravana caravana, Tambo tambo,int cantidadServidas, char sexo, String descripcion, Date fechaDeNacimiento) {
+        this.id = id;
+        this.caravana = caravana;
+        this.tambo = tambo;
+        this.sexo = sexo;
+        this.descripcion = descripcion;
+        this.cantidadServidas = cantidadServidas;
         this.fechaDeNacimiento = fechaDeNacimiento;
     }
 
@@ -77,28 +72,20 @@ public class Ganado {
         this.id = id;
     }
 
-    public int getPasos() {
-        return pasos;
+    public Caravana getCaravana() {
+        return caravana;
     }
 
-    public void setPasos(int pasos) {
-        this.pasos = pasos;
+    public void setCaravana(Caravana caravana) {
+        this.caravana = caravana;
     }
 
-    public boolean isComio() {
-        return comio;
+    public Tambo getTambo() {
+        return tambo;
     }
 
-    public void setComio(boolean comio) {
-        this.comio = comio;
-    }
-
-    public double getTemperatura() {
-        return temperatura;
-    }
-
-    public void setTemperatura(double temperatura) {
-        this.temperatura = temperatura;
+    public void setTambo(Tambo tambo) {
+        this.tambo = tambo;
     }
 
     public char getSexo() {
@@ -109,28 +96,12 @@ public class Ganado {
         this.sexo = sexo;
     }
 
-    public int getCantidadServidas() {
-        return cantidadServidas;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setCantidadServidas(int cantidadServidas) {
-        this.cantidadServidas = cantidadServidas;
-    }
-
-    public int getCantidadComio() {
-        return cantidadComio;
-    }
-
-    public void setCantidadComio(int cantidadComio) {
-        this.cantidadComio = cantidadComio;
-    }
-
-    public double getPeso() {
-        return peso;
-    }
-
-    public void setPeso(double peso) {
-        this.peso = peso;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Date getFechaDeNacimiento() {
@@ -139,5 +110,13 @@ public class Ganado {
 
     public void setFechaDeNacimiento(Date fechaDeNacimiento) {
         this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+
+    public int getCantidadServidas() {
+        return cantidadServidas;
+    }
+
+    public void setCantidadServidas(int cantidadServidas) {
+        this.cantidadServidas = cantidadServidas;
     }
 }
