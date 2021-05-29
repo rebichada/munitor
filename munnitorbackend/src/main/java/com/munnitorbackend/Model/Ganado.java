@@ -17,7 +17,7 @@ public class Ganado {
     @Column(name = "id_ganado")
     private Long id;
 
-    @JoinColumn(name = "id_caravana", referencedColumnName = "id_ganado")
+    @JoinColumn(name = "id_caravana", referencedColumnName = "id_caravana")
     @OneToOne
     @OnDelete(action= OnDeleteAction.CASCADE)
     @Nullable

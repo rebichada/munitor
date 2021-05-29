@@ -11,5 +11,5 @@ public interface IVacunaService {
     List<Vacuna> obtenerVacunasDentroDeEmpresa(Long idEmpresa)throws Exception;
     List<Vacuna> buscarVacunaDentroDeEmpresaTambo(Long idEmpresa, Long idTambo,String nombreVacuna)throws Exception;
     List<Vacuna> buscarTipoDentroDeEmpresaTambo(Long idEmpresa,Long idTambo, String tipoVacuna)throws Exception;
-
+    Vacuna guardar(Vacuna v);
 }

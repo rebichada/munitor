@@ -8,8 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface GanadoRepo extends JpaRepository<Ganado,Long> {
+
     @Query("SELECT g FROM Ganado g WHERE g.id=:id_ganado")
     Ganado getById(@Param("id_ganado") Long id_ganado);
 
@@ -175,7 +178,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
     //obtener las vacas de X empresa para Y tambo
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id INNER JOIN Empresa e ON e.tambo.id=t.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo")
-    List<Ganado> findByTamboAndEmpresa(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa);
+    List<Ganado> findByTamboAndEmpresa(@Param("id_tambo") Long id_tambo, @Param("id_empresa") Long id_empresa);
 
     //obtener las vacas que no tengan X vacuna
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
@@ -194,7 +197,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
     //obtener las vacas a cargo de X empleado
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id INNER JOIN Empresa e ON e.tambo.id=t.id " +
             "INNER JOIN Empleado em ON e.empleado.id=em.id " +
-            "WHERE em.id=:id_emepleado AND e.id=:id_empresa AND t.id =:id_tambo")
+            "WHERE em.id=:id_empleado AND e.id=:id_empresa AND t.id =:id_tambo")
     List<Ganado> findByEmpleado( @Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("id_empleado") Long id_empleado);
 
     //obtener las vacas de X sexo (toros o vacas)

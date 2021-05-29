@@ -9,7 +9,7 @@ public class Vacuna {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_vacunas")
+    @Column(name = "id_vacuna")
     private Long id;
 
     @Column
@@ -31,6 +31,10 @@ public class Vacuna {
         this.cantidad = cantidad;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Vacuna(){
         super();
     }
@@ -45,11 +49,6 @@ public class Vacuna {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Id
-    public Long getId() {
-        return id;
     }
 
     public String getNombre() {

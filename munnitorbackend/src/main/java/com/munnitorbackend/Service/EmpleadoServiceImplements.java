@@ -42,4 +42,10 @@ public class EmpleadoServiceImplements implements IEmpleadoService{
     public void deleteEmpleado(Long idEmpleado) throws Exception {
         empleadoRepo.deleteById(idEmpleado);
     }
+
+    @Override
+    public Empleado guardar(Empleado e) throws Exception {
+        return empleadoRepo.save(e);
+    }
+
 }

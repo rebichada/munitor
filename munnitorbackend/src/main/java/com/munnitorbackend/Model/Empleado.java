@@ -22,7 +22,7 @@ public class Empleado {
     @NotNull
     private Direccion direccion;
 
-    @JoinColumn(name="id_usuario", referencedColumnName="id_usuario")
+    @JoinColumn(name="id_usuario", referencedColumnName="id_user")
     @OneToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull

@@ -11,5 +11,5 @@ public interface IEmpleadoService {
     Empleado obtenerEmpleadoPorIdUser(Long idUser);
     Empleado findById(Long idEmpleado);
     void deleteEmpleado(Long idEmpleado) throws Exception;
-
+    Empleado guardar(Empleado empleado) throws  Exception;
 }

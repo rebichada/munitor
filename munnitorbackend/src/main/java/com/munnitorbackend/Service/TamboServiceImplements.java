@@ -22,4 +22,9 @@ public class TamboServiceImplements implements ITamboService{
     public Tambo obtenerTamboDentroDeUnaEmpresa(Long idTambo, Long idEmpresa) {
         return tamboRepo.findByIdEqualsAndEmpresaEquals(idTambo,idEmpresa);
     }
+
+    @Override
+    public Tambo guardar(Tambo t) {
+        return tamboRepo.save(t);
+    }
 }

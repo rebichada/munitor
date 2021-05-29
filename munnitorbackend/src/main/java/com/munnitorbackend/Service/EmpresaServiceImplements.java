@@ -38,6 +38,11 @@ public class EmpresaServiceImplements implements IEmpresaService {
         empresaRepo.deleteById(idEmpresa);
     }
 
+    @Override
+    public Empresa guardar(Empresa e) throws Exception {
+        return empresaRepo.save(e);
+    }
+
 
 }
 

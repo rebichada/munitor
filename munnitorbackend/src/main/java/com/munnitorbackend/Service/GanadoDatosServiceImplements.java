@@ -179,4 +179,9 @@ public class GanadoDatosServiceImplements implements IGanadoDatosService{
         return ganadoDatos;
     }
 
+    @Override
+    public GanadoDatos guardar(GanadoDatos ganadoDatos) {
+        return ganadoDatosRepo.save(ganadoDatos);
+    }
+
 }

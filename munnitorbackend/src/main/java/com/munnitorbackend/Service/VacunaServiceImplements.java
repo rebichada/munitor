@@ -78,4 +78,9 @@ public class VacunaServiceImplements implements IVacunaService{
         }
         return v;
     }
+
+    @Override
+    public Vacuna guardar(Vacuna v) {
+        return vacunaRepo.save(v);
+    }
 }

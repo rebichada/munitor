@@ -1,6 +1,7 @@
 package com.munnitorbackend.Service;
 
 import com.munnitorbackend.Model.Ganado;
+import com.munnitorbackend.Model.GanadoDatos;
 
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
 public interface IGanadoService {
     Ganado obtenerPorIdCaravana(Long idTambo, Long idEmpresa, Long idCaravana) throws Exception;
     Ganado obtenerPorId(Long idGanado) throws Exception;
+    Ganado guardar(Ganado ganado);
+    List<Ganado> findAll();
     List<Ganado> filtrarPorCUIGCaravana(Long idTambo, Long idEmpresa, String cuig) throws Exception;
 
     List<Ganado> filtrarPorRangoTemperatura(Long idTambo, Long idEmpresa,Double temp1, Double temp2, Date fechaDesde, Date fechaHasta)throws Exception;
@@ -35,7 +38,7 @@ public interface IGanadoService {
     List<Ganado> filtrarPorRangoFechaNacimiento(Long idTambo, Long idEmpresa,Date fechaDesde, Date fechaHasta)throws Exception;
     List<Ganado> filtrarPorEmpresaTamboVacunaDistinta(Long idTambo, Long idEmpresa, Long idVacuna)throws Exception;
     List<Ganado> filtrarPorEmpresaTamboVacunaIgual(Long idTambo, Long idEmpresa, Long idVacuna)throws Exception;
-    List<Ganado> listarPorEmpresaTambo(Long idTambo, Long idEmpresa)throws Exception;
+    List<Ganado> listarPorEmpresaTambo(Long idTambo, Long idEmpresa) throws Exception;
     List<Ganado> listarPorEmpresaTamboEmpleado(Long idTambo, Long idEmpresa, Long idEmpleado)throws Exception;
 
 }

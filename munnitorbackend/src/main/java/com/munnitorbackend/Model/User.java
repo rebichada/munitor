@@ -16,6 +16,7 @@ import java.util.Date;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_user")
     private Long id;
 
     @NotNull

@@ -38,6 +38,16 @@ public class GanadoServiceImplements implements IGanadoService{
     }
 
     @Override
+    public Ganado guardar(Ganado ganado) {
+        return ganadoRepo.save(ganado);
+    }
+
+    @Override
+    public List<Ganado> findAll() {
+        return ganadoRepo.findAll();
+    }
+
+    @Override
     public List<Ganado> filtrarPorCUIGCaravana(Long idTambo, Long idEmpresa, String cuig) throws Exception{
         List<Ganado> g;
         try {

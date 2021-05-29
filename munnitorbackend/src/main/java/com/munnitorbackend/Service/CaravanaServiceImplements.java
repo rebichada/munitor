@@ -64,5 +64,10 @@ public class CaravanaServiceImplements implements ICaravanaService{
          caravanaRepo.deleteById(idCaravana);
     }
 
+    @Override
+    public Caravana guardar(Caravana caravana) throws Exception {
+        return caravanaRepo.save(caravana);
+    }
+
 
 }

@@ -14,5 +14,5 @@ public interface ICaravanaService {
     List<Caravana> obtenerCaravanasAsignadasEmpresa(Long idEmpresa);
     Caravana findById(Long idCaravana);
     void deleteCaravana(Long idCaravana) throws Exception;
-
+    Caravana guardar(Caravana caravana) throws Exception;
 }
