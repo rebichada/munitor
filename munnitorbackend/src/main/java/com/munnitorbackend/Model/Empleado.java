@@ -22,34 +22,34 @@ public class Empleado {
     @NotNull
     private Direccion direccion;
 
-    @JoinColumn(name="id_usuario", referencedColumnName="id_user")
+    @JoinColumn(name="id_user", referencedColumnName="id_user", unique = true)
     @OneToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private User user;
 
 
-    @Column(name = "nombre_empleado", length = 40, nullable = false)
+    @Column(name = "nombre", length = 40, nullable = false)
     private String nombre;
 
-    @Column(name = "apellido_empleado", length =40,nullable = false)
+    @Column(name = "apellido", length =40,nullable = false)
     private String apellido;
 
-    @Column(name = "dni_empleado", length = 15,nullable = false)
+    @Column(name = "dni", length = 15,nullable = false)
     private int dni;
-
-    @Column(length = 100, nullable = false)
-    private String email;
 
     @Column(length = 20)
     private String telefono;
 
-    @Column(name = "nombre_usuario", length =45,nullable = false)
+    /**@Column(name = "nombre_usuario", length =45,nullable = false)
     private String nombreUsuario;
 
     @Column(name = "password_usuario",length = 30, nullable = false)
     private String passwordUsuario;
 
+     @Column(length = 100, nullable = false)
+     private String email;
+     **/
     public Empleado() {
         super();
     }
@@ -59,10 +59,11 @@ public class Empleado {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
-        this.email = email;
+
         this.telefono = telefono;
-        this.nombreUsuario = nombreUsuario;
+        /**this.nombreUsuario = nombreUsuario;
         this.passwordUsuario = passwordUsuario;
+         this.email = email;**/
     }
 
     public Long getId() {
@@ -97,13 +98,7 @@ public class Empleado {
         this.dni = dni;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getTelefono() {
         return telefono;
@@ -113,7 +108,15 @@ public class Empleado {
         this.telefono = telefono;
     }
 
-    public String getNombreUsuario() {
+/**
+ *  public String getEmail() {
+ *         return email;
+ *     }
+ *
+ *     public void setEmail(String email) {
+ *         this.email = email;
+ *     }
+ * public String getNombreUsuario() {
         return nombreUsuario;
     }
 
@@ -127,5 +130,5 @@ public class Empleado {
 
     public void setPasswordUsuario(String passwordUsuario) {
         this.passwordUsuario = passwordUsuario;
-    }
+    }**/
 }

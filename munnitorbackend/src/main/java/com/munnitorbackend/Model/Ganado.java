@@ -17,13 +17,13 @@ public class Ganado {
     @Column(name = "id_ganado")
     private Long id;
 
-    @JoinColumn(name = "id_caravana", referencedColumnName = "id_caravana")
+    @JoinColumn(name = "id_caravana", referencedColumnName = "id_caravana", unique = true)
     @OneToOne
     @OnDelete(action= OnDeleteAction.CASCADE)
     @Nullable
     private Caravana caravana;
 
-    @JoinColumn(name="id_tambo", referencedColumnName = "id_tambo")
+    @JoinColumn(name="id_tambo", referencedColumnName = "id_tambo", unique = true)
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
