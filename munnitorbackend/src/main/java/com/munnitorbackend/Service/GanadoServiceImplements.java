@@ -15,10 +15,13 @@ public class GanadoServiceImplements implements IGanadoService{
     private GanadoRepo ganadoRepo;
 
     @Override
-    public Ganado obtenerPorIdCaravana(Long idTambo, Long idEmpresa, Long idCaravana) throws Exception{
+    public Ganado obtenerGanadoPorIdCaravana(Long idCaravana) throws Exception{
         Ganado g;
         try {
-            g=ganadoRepo.findByCaravanaEquals(idTambo,idEmpresa,idCaravana);
+            g=ganadoRepo.findByCaravanaEquals(idCaravana);
+            if (g==null){
+                throw new Exception("Este codigo " + idCaravana + " de Caravana no esta asignado a un Ganado" );
+            }
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }

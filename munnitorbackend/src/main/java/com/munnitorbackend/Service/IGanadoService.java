@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface IGanadoService {
-    Ganado obtenerPorIdCaravana(Long idTambo, Long idEmpresa, Long idCaravana) throws Exception;
+    Ganado obtenerGanadoPorIdCaravana(Long idCaravana) throws Exception;
     Ganado obtenerPorId(Long idGanado) throws Exception;
     Ganado guardar(Ganado ganado);
     List<Ganado> findAll();

@@ -224,7 +224,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
     //obtener las vacas de X fecha_desde e Y fecha_hasta
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
             "INNER JOIN Empresa e ON e.tambo.id=t.id " +
-            "INNER JOIN Caravana c ON c.id=g.caravana.id " +
+            "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.fechaDeNacimiento between :fecha_desde and :fecha_hasta")
     List<Ganado> findByRangeFechaDeNacimiento(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("fecha_desde") Date edad_desde, @Param("fecha_hasta") Date edad_hasta);
 
@@ -237,12 +237,9 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
                                         @Param("cant_servidas") Integer cant_servidas);
 
     //obtener las vacas de X empresa para Y tambo e Z codigo de caravana
-    @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
-            "INNER JOIN Caravana c ON c.id=g.caravana.id " +
-            "WHERE e.id=:id_empresa AND t.id =:id_tambo " +
-            "AND c.id=:codigo_caravana")
-    Ganado findByCaravanaEquals(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("codigo_caravana") Long codigo_caravana);
+    @Query("SELECT g FROM Ganado g INNER JOIN Caravana c ON c.id=g.caravana.id " +
+            "WHERE c.id=:codigo_caravana")
+    Ganado findByCaravanaEquals(@Param("codigo_caravana") Long codigo_caravana);
 
     //obtener las vacas de X empresa para Y tambo e Z codigo de caravana (CUIG)
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
