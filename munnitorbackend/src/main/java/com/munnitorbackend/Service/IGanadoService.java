@@ -9,7 +9,7 @@ import java.util.List;
 public interface IGanadoService {
     Ganado obtenerGanadoPorIdCaravana(Long idCaravana) throws Exception;
     Ganado obtenerPorId(Long idGanado) throws Exception;
-    Ganado guardar(Ganado ganado);
+    Ganado guardar(Ganado ganado)throws Exception;
     List<Ganado> findAll();
     List<Ganado> filtrarPorCUIGCaravana(Long idTambo, Long idEmpresa, String cuig) throws Exception;
 
@@ -31,14 +31,14 @@ public interface IGanadoService {
 
 
 
-    List<Ganado> filtrarPorCantPartos(Long idTambo, Long idEmpresa,Integer cantPartos)throws Exception;
+    List<Ganado> filtrarPorCantPartosMenor(Long idTambo, Long idEmpresa,Integer cantPartos)throws Exception;
     List<Ganado> filtrarPorSexo(Long idTambo, Long idEmpresa,String sexo)throws Exception;
-    List<Ganado> filtrarPorFechaNacimientoMenirIgual(Long idTambo, Long idEmpresa,Date fecha)throws Exception;
+    List<Ganado> filtrarPorFechaNacimientoMenorIgual(Long idTambo, Long idEmpresa,Date fecha)throws Exception;
     List<Ganado> filtrarPorFechaNacimientoMayorIgual(Long idTambo, Long idEmpresa,Date fecha)throws Exception;
     List<Ganado> filtrarPorRangoFechaNacimiento(Long idTambo, Long idEmpresa,Date fechaDesde, Date fechaHasta)throws Exception;
     List<Ganado> filtrarPorEmpresaTamboVacunaDistinta(Long idTambo, Long idEmpresa, Long idVacuna)throws Exception;
     List<Ganado> filtrarPorEmpresaTamboVacunaIgual(Long idTambo, Long idEmpresa, Long idVacuna)throws Exception;
     List<Ganado> listarPorEmpresaTambo(Long idTambo, Long idEmpresa) throws Exception;
     List<Ganado> listarPorEmpresaTamboEmpleado(Long idTambo, Long idEmpresa, Long idEmpleado)throws Exception;
-
+    List<Ganado> listarPorEmpresa(Long idEmpresa) throws Exception;
 }

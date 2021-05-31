@@ -16,6 +16,9 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
     @Query("SELECT g FROM Ganado g WHERE g.id=:id_ganado")
     Ganado getById(@Param("id_ganado") Long id_ganado);
 
+    @Query("SELECT g FROM Ganado g INNER JOIN Empresa e ON e.tambo.id=g.tambo.id WHERE e.id=:id_empresa")
+    List<Ganado> findByEmpresa(@Param("id_empresa") Long id_empresa);
+
     //----------------------------------------------------------LISTA DE GANADOS----------------------------------------------------------
 
     //obtener la temperatura de vacas entre ciertos grados
@@ -233,7 +236,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
             "INNER JOIN Empresa e ON e.tambo.id=t.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.cantidadServidas <:cant_servidas " )
-    List<Ganado> findByCantidadServidas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,
+    List<Ganado> findByCantidadMenorServidas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,
                                         @Param("cant_servidas") Integer cant_servidas);
 
     //obtener las vacas de X empresa para Y tambo e Z codigo de caravana

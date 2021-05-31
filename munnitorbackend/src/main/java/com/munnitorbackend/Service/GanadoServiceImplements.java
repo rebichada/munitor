@@ -41,8 +41,14 @@ public class GanadoServiceImplements implements IGanadoService{
     }
 
     @Override
-    public Ganado guardar(Ganado ganado) {
-        return ganadoRepo.save(ganado);
+    public Ganado guardar(Ganado ganado) throws Exception {
+        Ganado g;
+        try{
+            g= ganadoRepo.save(ganado);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+        return g;
     }
 
     @Override
@@ -217,10 +223,10 @@ public class GanadoServiceImplements implements IGanadoService{
 
 
     @Override
-    public List<Ganado> filtrarPorCantPartos(Long idTambo, Long idEmpresa, Integer cantPartos) throws Exception {
+    public List<Ganado> filtrarPorCantPartosMenor(Long idTambo, Long idEmpresa, Integer cantPartos) throws Exception {
         List<Ganado> g;
         try {
-            g=ganadoRepo.findByCantidadServidas(idTambo,idEmpresa,cantPartos);
+            g=ganadoRepo.findByCantidadMenorServidas(idTambo,idEmpresa,cantPartos);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -239,7 +245,7 @@ public class GanadoServiceImplements implements IGanadoService{
     }
 
     @Override
-    public List<Ganado> filtrarPorFechaNacimientoMenirIgual(Long idTambo, Long idEmpresa, Date fecha) throws Exception {
+    public List<Ganado> filtrarPorFechaNacimientoMenorIgual(Long idTambo, Long idEmpresa, Date fecha) throws Exception {
         List<Ganado> g;
         try {
             g=ganadoRepo.findByFechaDeNacimientoIsLessThanEqual(idTambo,idEmpresa,fecha);
@@ -309,6 +315,17 @@ public class GanadoServiceImplements implements IGanadoService{
         List<Ganado> g;
         try {
             g=ganadoRepo.findByEmpleado(idTambo,idEmpresa,idEmpleado);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+        return g;
+    }
+
+    @Override
+    public List<Ganado> listarPorEmpresa(Long idEmpresa) throws Exception {
+        List<Ganado> g;
+        try {
+            g=ganadoRepo.findByEmpresa(idEmpresa);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }

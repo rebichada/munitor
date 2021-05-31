@@ -23,5 +23,5 @@ public interface IGanadoDatosService {
     GanadoDatos filtrarGanadoPorCantComieronMenorIgual(Long idGanado,Integer cantComieron,Date fechaDesde, Date fechaHasta)throws Exception;
     GanadoDatos filtrarGanadoPorPesoMenorIgual(Long idGanado,Double peso,Date fechaDesde, Date fechaHasta)throws Exception;
     GanadoDatos filtrarGanadoPorPesoMayorIgual(Long idGanado,Double peso,Date fechaDesde, Date fechaHasta)throws Exception;
-    GanadoDatos guardar(GanadoDatos ganadoDatos);
+    GanadoDatos guardar(GanadoDatos ganadoDatos) throws Exception;
 }
