@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 public interface IGanadoDatosService {
+
+    List<GanadoDatos>cantidadDePasosInRangeFecha(Long idTambo,Long idEmpresa) throws Exception;
     List<GanadoDatos> filtrarPorRangoTemperatura(Long idTambo, Long idEmpresa, Double temp1, Double temp2, Date fechaDesde, Date fechaHasta)throws Exception;
     List<GanadoDatos> filtrarPorCantPasosMenorIgual(Long idTambo, Long idEmpresa,Double cantPasos,Date fechaDesde, Date fechaHasta)throws Exception;
     List<GanadoDatos> filtrarPorCantPasosMayorIgual(Long idTambo, Long idEmpresa,Double cantPasos,Date fechaDesde, Date fechaHasta)throws Exception;
@@ -24,4 +26,6 @@ public interface IGanadoDatosService {
     GanadoDatos filtrarGanadoPorPesoMenorIgual(Long idGanado,Double peso,Date fechaDesde, Date fechaHasta)throws Exception;
     GanadoDatos filtrarGanadoPorPesoMayorIgual(Long idGanado,Double peso,Date fechaDesde, Date fechaHasta)throws Exception;
     GanadoDatos guardar(GanadoDatos ganadoDatos) throws Exception;
+
+
 }

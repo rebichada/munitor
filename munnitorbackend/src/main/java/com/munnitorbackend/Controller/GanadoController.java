@@ -1,8 +1,10 @@
 package com.munnitorbackend.Controller;
 
+import com.munnitorbackend.DTO.DatosDelGanadoDTO;
 import com.munnitorbackend.Model.Ganado;
 import com.munnitorbackend.Model.GanadoDatos;
 import com.munnitorbackend.Service.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +13,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://wwww.rebichada.com.ar:8080")
 @RequestMapping("/ganado")
 public class GanadoController {
 
@@ -26,6 +30,8 @@ public class GanadoController {
     @Autowired
     private IGanadoDatosService ganadoDatosService;
 
+    @Autowired
+    private ModelMapper modelMapper;
 
     /**POST PARA ALMACENAR LOS DATOS DEL SENSOR, EL JSON DEBE SER:
     {
@@ -44,11 +50,40 @@ public class GanadoController {
         try{
             datos.setFechaDeRegistro(new Date());
             GanadoDatos ganadoDatos = ganadoDatosService.guardar(datos);
-            return ResponseEntity.created(new URI("/datos/"+ ganadoDatos.getId())).body(ganadoDatos);
+            if (datos.getTemperatura() > 40 && datos.getTemperatura() < 35){
+                return ResponseEntity.ok(datos);
+            }else{
+                return ResponseEntity.created(new URI("/notificarTemperatura/"+ ganadoDatos.getId())).body(ganadoDatos);
+            }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @GetMapping("/principal")
+    public ResponseEntity<ArrayList<DatosDelGanadoDTO>> getGanadoMasTemperaturaMasCantPasos(@RequestParam(value = "idTambo") Long idTambo,@RequestParam(value = "idEmpresa") Long idEmpresa){
+        ArrayList<Ganado> ganadoObtenidos;
+        ArrayList<GanadoDatos>ganadoDatos;
+        ArrayList<DatosDelGanadoDTO> resultadoGanado;
+        try {
+            //obtengo toodos los ganados de esta empresa y tambo con su ultima temperatura en su ultimo registro
+            ganadoObtenidos =(ArrayList<Ganado>) ganadoService.listarUltimaTemperaturaCantPasosEnUnDia(idTambo,idEmpresa);
+            //obtengo todos los GanadoDatos con la cantidad de pasos en las ultimas 24 hs
+            ganadoDatos=(ArrayList<GanadoDatos>) ganadoDatosService.cantidadDePasosInRangeFecha(idTambo,idEmpresa);
+
+            //filtro por el object Ganado y mapeo para solo enviar los datos necesarios
+            resultadoGanado=(ArrayList<DatosDelGanadoDTO>) ganadoDatos.stream().filter(ganados -> ganadoObtenidos.contains(ganados.getGanado()))
+                    .map(ganadoDatos1 -> modelMapper.map(ganadoDatos1, DatosDelGanadoDTO.class))
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(resultadoGanado);
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+    }
+    //listarUltimaTemperaturaCantPasosEnUnDia
+    //cantidadDePasosInRangeFecha
 
     @GetMapping("/VerGanadoPorCaravana")
     public ResponseEntity<Ganado> getGanadoByIdCaravana(@RequestParam(value = "idCaravana") Long idCaravana) {

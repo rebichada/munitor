@@ -49,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //antMatchers todas estas rutas hacen referencia a la ruta resources/templates ("/", "/App/principal" ....) o resources/static ("/js/**", "/css/**")
         http.authorizeRequests().antMatchers("/","/commonJS/**","/css/**","/users","/users/login","/users/new","/principal").permitAll()
                 .antMatchers(HttpMethod.POST,"/users").permitAll()
+                .antMatchers(HttpMethod.GET,"/ganado/list-all").permitAll()
                 .antMatchers("/**").hasRole("USER").and().formLogin()
                 //referencia al metodo get
                 .loginPage("/users/login")

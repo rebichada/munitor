@@ -1,28 +1,39 @@
 package com.munnitorbackend;
 
+import com.munnitorbackend.Model.GanadoDatos;
 import com.munnitorbackend.Model.User;
+import com.munnitorbackend.Service.GanadoDatosServiceImplements;
+import com.munnitorbackend.Service.GanadoServiceImplements;
 import com.munnitorbackend.Service.UserServiceImplement;
 import javafx.scene.input.DataFormat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import sun.rmi.runtime.Log;
 
 import javax.xml.crypto.Data;
+import java.io.Console;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 @SpringBootTest
 class MunnitorbackendApplicationTests {
 
+	//@Autowired
+	//UserServiceImplement userServiceImplement;
+
 	@Autowired
-	UserServiceImplement userServiceImplement;
+	GanadoServiceImplements ganadoServiceImplements;
+
+	@Autowired
+	GanadoDatosServiceImplements ganadoDatosServiceImplements;
 
 	@Test
 	void contextLoads() throws ParseException {
-		User u = new User();
 
-		u.setEmail("user@hotmail.com");
+		/**u.setEmail("user@hotmail.com");
 		u.setId(1L);
 		u.setPassword("user");
 		u.setLastName("user");
@@ -37,7 +48,7 @@ class MunnitorbackendApplicationTests {
 		}
 
 
-		userServiceImplement.create(u);
+		userServiceImplement.create(u);**/
 
 
 

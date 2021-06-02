@@ -13,6 +13,15 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
 
     //----------------------------------------------------------LISTA DE GANADOS----------------------------------------------------------
 
+    //obtener las vacas que dieron mas o igual de x cantidad de pasos
+    @Query(value = "SELECT gd FROM ganados g INNER JOIN tambos t ON g.id_tambo=t.id_tambo " +
+            "INNER JOIN empresas e ON e.id_tambo=t.id_tambo " +
+                "INNER JOIN (SELECT id, COUNT(cantPasos) FROM ganado_datos " +
+                "WHERE fecha_de_registro between :fecha_desde and :fecha_hasta group by id) gd ON gd.id_ganado=g.id_ganado " +
+            "WHERE e.id_empresa=:id_empresa AND t.id_tambo =:id_tambo ", nativeQuery = true)
+    List<GanadoDatos> findByPasosInRangeFechas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,
+                                         @Param("fecha_desde")Date fechaDesde,@Param("fecha_hasta")Date fechaHasta);
+
     //obtener la temperatura de vacas entre ciertos grados
     @Query("SELECT gd FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
             "INNER JOIN Empresa e ON e.tambo.id=t.id " +

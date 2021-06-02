@@ -41,4 +41,6 @@ public interface IGanadoService {
     List<Ganado> listarPorEmpresaTambo(Long idTambo, Long idEmpresa) throws Exception;
     List<Ganado> listarPorEmpresaTamboEmpleado(Long idTambo, Long idEmpresa, Long idEmpleado)throws Exception;
     List<Ganado> listarPorEmpresa(Long idEmpresa) throws Exception;
+
+    List<Ganado> listarUltimaTemperaturaCantPasosEnUnDia(Long idTambo, Long idEmpresa) throws Exception;
 }

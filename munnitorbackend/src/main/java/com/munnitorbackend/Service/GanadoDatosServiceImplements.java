@@ -5,6 +5,7 @@ import com.munnitorbackend.Repository.GanadoDatosRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,24 @@ public class GanadoDatosServiceImplements implements IGanadoDatosService{
 
     @Autowired
     private GanadoDatosRepo ganadoDatosRepo;
+
+    @Override
+    public List<GanadoDatos> cantidadDePasosInRangeFecha(Long idTambo, Long idEmpresa) throws Exception {
+        List<GanadoDatos>ganadoDatos;
+        Date fechaDesde;
+        Date fechaHasta;
+        try{
+            Calendar cal = Calendar.getInstance();
+            fechaDesde=cal.getTime();
+            //le resto un dia
+            cal.set(Calendar.DATE, cal.get(Calendar.DATE)-1);
+            fechaHasta=cal.getTime();
+            ganadoDatos=ganadoDatosRepo.findByPasosInRangeFechas(idTambo,idEmpresa,fechaDesde,fechaHasta);
+        }catch (Exception e){
+            throw new Exception((e.getMessage()));
+        }
+        return ganadoDatos;
+     }
 
     @Override
     public List<GanadoDatos> filtrarPorRangoTemperatura(Long idTambo, Long idEmpresa, Double temp1, Double temp2, Date fechaDesde, Date fechaHasta) throws Exception {

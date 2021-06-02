@@ -1,6 +1,7 @@
 package com.munnitorbackend.Service;
 
 import com.munnitorbackend.Model.Ganado;
+import com.munnitorbackend.Model.GanadoDatos;
 import com.munnitorbackend.Repository.GanadoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -330,6 +331,17 @@ public class GanadoServiceImplements implements IGanadoService{
             throw new Exception(e.getMessage());
         }
         return g;
+    }
+
+    @Override
+    public List<Ganado> listarUltimaTemperaturaCantPasosEnUnDia(Long idTambo, Long idEmpresa) throws Exception {
+        List<Ganado> ganados;
+        try{
+            ganados=ganadoRepo.findByIdEqualsAndAndCaravanaAndGanadoDatos(idEmpresa, idTambo);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+        return ganados;
     }
 
 }
