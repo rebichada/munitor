@@ -9,18 +9,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "vacunas_empresas")
 public class VacunaEmpresa {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_vacunas_empresas")
     private Long idVacunasEmpresas;
 
-    @JoinColumn(name ="id_empresa", referencedColumnName = "id_empresa")
+    @JoinColumn(name ="fk_id_empresa", referencedColumnName = "id_empresa")
     @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Empresa empresa;
 
-    @JoinColumn(name ="id_vacuna", referencedColumnName = "id_vacuna")
+    @JoinColumn(name ="fk_id_vacuna", referencedColumnName = "id_vacuna")
     @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
@@ -55,15 +56,6 @@ public class VacunaEmpresa {
 
     public void setVacuna(Vacuna vacuna) {
         this.vacuna = vacuna;
-    }
-
-    public void setId(Long idVacunasEmpresas) {
-        this.idVacunasEmpresas = idVacunasEmpresas;
-    }
-
-    @Id
-    public Long getId() {
-        return idVacunasEmpresas;
     }
 
     public Integer getCantidad() {

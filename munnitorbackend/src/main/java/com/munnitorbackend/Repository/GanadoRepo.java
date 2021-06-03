@@ -16,21 +16,21 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
     @Query("SELECT g FROM Ganado g WHERE g.id=:id_ganado")
     Ganado getById(@Param("id_ganado") Long id_ganado);
 
-    @Query("SELECT g FROM Ganado g INNER JOIN Empresa e ON e.tambo.id=g.tambo.id WHERE e.id=:id_empresa")
+    @Query("SELECT g FROM Ganado g INNER JOIN Empresa e ON e.id=g.tambo.empresa.id WHERE e.id=:id_empresa")
     List<Ganado> findByEmpresa(@Param("id_empresa") Long id_empresa);
     //generar un array de con lo siguientes datos: ganado y idcaravana, pasos en las ultimas 24 y la ultima temperatura registrada
     @Query(value = "SELECT g FROM ganado g INNER JOIN caravanas c ON g.id_caravana=c.id_caravana " +
                    "INNER JOIN " +
                    "(SELECT g_d.id_ganado, MAX(g_d.fecha_de_resigro) FROM ganado_datos g_d WHERE id_ganado=:ig_ganado GROUP BY g_d.id_ganado) gd ON g.id=gd.ganado.id " +
-                   "INNER JOIN tambos t ON t.id=g.id_tambo INNER JOIN empresas e ON t.id=e.id_tambo " +
-                   "WHERE e.id_empresa=:id_empresa AND t.id_tambo=:id_tambo order by c.id",nativeQuery = true)
+                   "INNER JOIN tambos t ON t.id_tambo=g.id_tambo INNER JOIN empresas e ON t.id_empresa=e.id_empresa " +
+                   "WHERE e.id_empresa=:id_empresa AND t.id_tambo=:id_tambo order by c.id_caravana",nativeQuery = true)
     List<Ganado>findByIdEqualsAndAndCaravanaAndGanadoDatos(@Param("id_tambo") Long id_tambo, @Param("id_empresa")Long id_empresa);
 
     //----------------------------------------------------------LISTA DE GANADOS----------------------------------------------------------
 
     //obtener la temperatura de vacas entre ciertos grados
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo " +
@@ -42,7 +42,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //obtener las vacas que dieron menos o igual de x cantidad de pasos
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND gd.pasos <=:cant_pasos " +
@@ -53,7 +53,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //obtener las vacas que dieron mas o igual de x cantidad de pasos
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND gd.pasos >=:cant_pasos " +
@@ -64,7 +64,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //ver las vacas que comieron x cantidad de veces
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND gd.cantidadComio =:cant_comio " +
@@ -75,7 +75,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //ver las vacas que comieron x cantidad de veces o menos
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND gd.cantidadComio <=:cant_comio " +
@@ -86,7 +86,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //obtener las vacas de menor X cantidad de peso
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND gd.peso >=:cant_peso " +
@@ -97,7 +97,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //obtener las vacas de mayor X cantidad de peso
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND gd.peso <=:cant_peso " +
@@ -115,7 +115,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //obtener la temperatura de vacas entre ciertos grados
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE g.id=:id_ganado " +
@@ -126,7 +126,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //obtener las vacas que dieron menos o igual de x cantidad de pasos
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE g.id=:id_ganado AND gd.pasos <=:cant_pasos " +
@@ -136,7 +136,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //obtener las vacas que dieron mas o igual de x cantidad de pasos
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE g.id=:id_ganado AND gd.pasos >=:cant_pasos " +
@@ -146,7 +146,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //ver las vacas que comieron x cantidad de veces
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE g.id=:id_ganado AND gd.cantidadComio =:cant_comio " +
@@ -156,7 +156,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //ver las vacas que comieron x cantidad de veces o menos
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE g.id=:id_ganado AND gd.cantidadComio <=:cant_comio " +
@@ -166,7 +166,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //obtener las vacas de menor X cantidad de peso
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE g.id=:id_ganado AND gd.peso >=:cant_peso " +
@@ -176,7 +176,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //obtener las vacas de mayor X cantidad de peso
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "INNER JOIN GanadoDatos gd ON gd.ganado.id=g.id " +
             "WHERE g.id=:id_ganado AND gd.peso <=:cant_peso " +
@@ -186,61 +186,61 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
     //--------------------------------------------SIN INNER JOIN ENTRE GANADO_DATOS--------------------------------------------------------
 
     //obtener las vacas de X empresa para Y tambo
-    @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id INNER JOIN Empresa e ON e.tambo.id=t.id " +
+    @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo")
     List<Ganado> findByTamboAndEmpresa(@Param("id_tambo") Long id_tambo, @Param("id_empresa") Long id_empresa);
 
     //obtener las vacas que no tengan X vacuna
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "INNER JOIN GanadoVacuna gv ON gv.ganado.id=g.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND gv.vacuna.id <> :id_vacuna")
     List<Ganado> findByNotVacunas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("id_vacuna") Long id_vacuna);
 
     //obtener el ganado que tienen X vacuna
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "INNER JOIN GanadoVacuna gv ON gv.ganado.id=g.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND gv.vacuna.id = :id_vacuna")
     List<Ganado> findByVacunas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("id_vacuna") Long id_vacuna);
 
     //obtener las vacas a cargo de X empleado
-    @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id INNER JOIN Empresa e ON e.tambo.id=t.id " +
-            "INNER JOIN Empleado em ON e.empleado.id=em.id " +
+    @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id INNER JOIN Empresa e ON e.id=t.empresa.id " +
+            "INNER JOIN Empleado em ON t.id=em.tambo.id " +
             "WHERE em.id=:id_empleado AND e.id=:id_empresa AND t.id =:id_tambo")
     List<Ganado> findByEmpleado( @Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("id_empleado") Long id_empleado);
 
     //obtener las vacas de X sexo (toros o vacas)
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.sexo =:tipo_sexo")
     List<Ganado> findBySexoEquals(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("tipo_sexo") String tipo_sexo);
 
     //obtener las vacas donde la edad =< X (por ejemplo para saber si son terneros, novillos, vacas, toros o animales viejos)
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.fechaDeNacimiento <=:edad")
     List<Ganado> findByFechaDeNacimientoIsLessThanEqual(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("edad") Date edad);
 
     //obtener las vacas donde la fecha >= X (por ejemplo para saber si son terneros, novillos, vacas, toros o animales viejos)
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.fechaDeNacimiento >=:fecha")
     List<Ganado> findByFechaDeNacimientoIsHigherThanEqual(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("fecha") Date edad);
 
     //obtener las vacas de X fecha_desde e Y fecha_hasta
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.fechaDeNacimiento between :fecha_desde and :fecha_hasta")
     List<Ganado> findByRangeFechaDeNacimiento(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,@Param("fecha_desde") Date edad_desde, @Param("fecha_hasta") Date edad_hasta);
 
     //obtener un listado de las vacas con X partos
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo AND g.cantidadServidas <:cant_servidas " )
     List<Ganado> findByCantidadMenorServidas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,
@@ -253,7 +253,7 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
 
     //obtener las vacas de X empresa para Y tambo e Z codigo de caravana (CUIG)
     @Query("SELECT g FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
-            "INNER JOIN Empresa e ON e.tambo.id=t.id " +
+            "INNER JOIN Empresa e ON e.id=t.empresa.id " +
             "LEFT JOIN Caravana c ON c.id=g.caravana.id " +
             "WHERE e.id=:id_empresa AND t.id =:id_tambo " +
             "AND c.CUIG LIKE :CUIG")

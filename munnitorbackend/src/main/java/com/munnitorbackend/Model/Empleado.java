@@ -28,11 +28,11 @@ public class Empleado {
     @NotNull
     private User user;
 
-    @JoinColumn(name ="id_empresa", referencedColumnName = "id_empresa")
+    @JoinColumn(name ="id_tambo", referencedColumnName = "id_tambo")
     @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
-    private Empresa empresa;
+    private Tambo tambo;
 
     @Column(name = "nombre", length = 40, nullable = false)
     private String nombre;
@@ -80,23 +80,23 @@ public class Empleado {
         this.telefono = telefono;
     }
 
-    public Empleado(Long id, Direccion direccion, User user, Empresa empresa, String nombre, String apellido, int dni, String telefono) {
+    public Empleado(Long id, Direccion direccion, User user, Tambo tambo, String nombre, String apellido, int dni, String telefono) {
         this.id = id;
         this.direccion = direccion;
         this.user = user;
-        this.empresa = empresa;
+        this.tambo = tambo;
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.telefono = telefono;
     }
 
-    public Empresa getEmpresa() {
-        return empresa;
+    public Tambo getTambo() {
+        return tambo;
     }
 
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
+    public void setTambo(Tambo tambo) {
+        this.tambo = tambo;
     }
 
     public Direccion getDireccion() {

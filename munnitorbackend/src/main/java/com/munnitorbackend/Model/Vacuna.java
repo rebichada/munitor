@@ -15,12 +15,6 @@ public class Vacuna {
     @Column(name = "id_vacuna")
     private Long id;
 
-    @JoinColumn(name ="id_empresa", referencedColumnName = "id_empresa")
-    @ManyToOne(optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
-    private Empresa empresa;
-
     @NotNull
     private String nombre;
 
@@ -40,8 +34,6 @@ public class Vacuna {
     public Vacuna() {
         super();
     }
-
-
 
     public Long getId() {
         return id;

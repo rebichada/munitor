@@ -55,6 +55,8 @@ class MunnitorbackendApplicationTests {
 	@Test
 	void contextLoads() throws ParseException {
 		//creo los usuarios
+
+		/**
 		SimpleDateFormat dataFormat=  new SimpleDateFormat("dd-MM-yyyy");
 
 		User uPedro= new User("pedro_zanchez@hotmail.com","pedro","sanchez","123",new Date(),"argentina");
@@ -377,7 +379,15 @@ class MunnitorbackendApplicationTests {
 		String fg11 = "20-03-2019";
 		String fg12 = "02-05-2019";
 		String fg13 = "21-05-2019";
-		String fg14 = "01-10-2019";
+		String fg14 = "01-10-20setFechaDeNacimiento(dataFormat.parse(fg14));
+		 g15.setFechaDeNacimiento(dataFormat.parse(fg15));
+		 g16.setFechaDeNacimiento(dataFormat.parse(fg16));
+		 g17.setFechaDeNacimiento(dataFormat.parse(fg17));
+		 g18.setFechaDeNacimiento(dataFormat.parse(fg18));
+		 g19.setFechaDeNacimiento(dataFormat.parse(fg19));
+		 g20.setFechaDeNacimiento(dataFormat.parse(fg20));
+
+		 }catch (Exception19";
 		String fg15 = "17-12-2019";
 		String fg16 = "20-11-2019";
 		String fg17 = "02-04-2021";
@@ -399,15 +409,7 @@ class MunnitorbackendApplicationTests {
 			g11.setFechaDeNacimiento(dataFormat.parse(fg11));
 			g12.setFechaDeNacimiento(dataFormat.parse(fg12));
 			g13.setFechaDeNacimiento(dataFormat.parse(fg13));
-			g14.setFechaDeNacimiento(dataFormat.parse(fg14));
-			g15.setFechaDeNacimiento(dataFormat.parse(fg15));
-			g16.setFechaDeNacimiento(dataFormat.parse(fg16));
-			g17.setFechaDeNacimiento(dataFormat.parse(fg17));
-			g18.setFechaDeNacimiento(dataFormat.parse(fg18));
-			g19.setFechaDeNacimiento(dataFormat.parse(fg19));
-			g20.setFechaDeNacimiento(dataFormat.parse(fg20));
-
-		}catch (Exception e){
+			g14. e){
 
 		}
 
