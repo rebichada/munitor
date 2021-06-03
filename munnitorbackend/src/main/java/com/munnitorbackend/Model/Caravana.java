@@ -50,7 +50,7 @@ public class Caravana {
     private Date fechaImpresion;
 
     @Column(name = "numero_impresor",length = 10,nullable = false)
-    private int numeroImpresor;
+    private String numeroImpresor;
 
     @Column(name = "rango_impresor",length = 15,nullable = false)
     private String rangoImpresor;
@@ -59,7 +59,7 @@ public class Caravana {
         super();
     }
 
-    public Caravana(Long id, String idInternacional, String CUIG, char colorCaravana, char digitoVerificador, String numeroManejo, String numeroRENSPA, String marcaFechaProduccion, Date fechaImpresion, int numeroImpresor, String rangoImpresor) {
+    public Caravana(Long id, String idInternacional, String CUIG, char colorCaravana, char digitoVerificador, String numeroManejo, String numeroRENSPA, String marcaFechaProduccion, Date fechaImpresion, String numeroImpresor, String rangoImpresor) {
         this.id = id;
         this.idInternacional = idInternacional;
         this.CUIG = CUIG;
@@ -71,6 +71,29 @@ public class Caravana {
         this.fechaImpresion = fechaImpresion;
         this.numeroImpresor = numeroImpresor;
         this.rangoImpresor = rangoImpresor;
+    }
+
+    public Caravana(Long id, Empresa empresa, String idInternacional, String CUIG, char colorCaravana, char digitoVerificador, String numeroManejo, String numeroRENSPA, String marcaFechaProduccion, Date fechaImpresion, String numeroImpresor, String rangoImpresor) {
+        this.id = id;
+        this.empresa = empresa;
+        this.idInternacional = idInternacional;
+        this.CUIG = CUIG;
+        this.colorCaravana = colorCaravana;
+        this.digitoVerificador = digitoVerificador;
+        this.numeroManejo = numeroManejo;
+        this.numeroRENSPA = numeroRENSPA;
+        this.marcaFechaProduccion = marcaFechaProduccion;
+        this.fechaImpresion = fechaImpresion;
+        this.numeroImpresor = numeroImpresor;
+        this.rangoImpresor = rangoImpresor;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 
     public Long getId() {
@@ -145,11 +168,11 @@ public class Caravana {
         this.fechaImpresion = fechaImpresion;
     }
 
-    public int getNumeroImpresor() {
+    public String getNumeroImpresor() {
         return numeroImpresor;
     }
 
-    public void setNumeroImpresor(int numeroImpresor) {
+    public void setNumeroImpresor(String numeroImpresor) {
         this.numeroImpresor = numeroImpresor;
     }
 

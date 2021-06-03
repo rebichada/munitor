@@ -16,24 +16,6 @@ public class Empresa {
     @Column(name="id_empresa")
     private Long id;
 
-    @JoinColumn(name = "id_empleado", referencedColumnName = "id_empleado")
-    @ManyToOne(optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
-    private Empleado empleado;
-
-    @JoinColumn(name ="id_tambo", referencedColumnName = "id_tambo")
-    @ManyToOne(optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
-    private Tambo tambo;
-
-    @JoinColumn(name ="id_vacuna", referencedColumnName = "id_vacuna")
-    @ManyToOne(optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @Nullable
-    private Vacuna vacuna;
-
     @JoinColumn(name ="id_direccion", referencedColumnName = "id_direccion")
     @OneToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -65,28 +47,13 @@ public class Empresa {
         this.telefono = telefono;
     }
 
-    public Empleado getEmpleado() {
-        return empleado;
-    }
-
-    public void setEmpleado(Empleado empleado) {
-        this.empleado = empleado;
-    }
-
-    public Tambo getTambo() {
-        return tambo;
-    }
-
-    public void setTambo(Tambo tambo) {
-        this.tambo = tambo;
-    }
-
-    public Vacuna getVacuna() {
-        return vacuna;
-    }
-
-    public void setVacuna(Vacuna vacuna) {
-        this.vacuna = vacuna;
+    public Empresa(Long id, Direccion direccion, String razonSocial, String cuit, String email, String telefono) {
+        this.id = id;
+        this.direccion = direccion;
+        this.razonSocial = razonSocial;
+        this.cuit = cuit;
+        this.email = email;
+        this.telefono = telefono;
     }
 
     public Direccion getDireccion() {

@@ -1,6 +1,9 @@
 package com.munnitorbackend.Model;
 
 import com.sun.istack.NotNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +15,12 @@ public class Vacuna {
     @Column(name = "id_vacuna")
     private Long id;
 
+    @JoinColumn(name ="id_empresa", referencedColumnName = "id_empresa")
+    @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private Empresa empresa;
+
     @NotNull
     private String nombre;
 
@@ -19,25 +28,23 @@ public class Vacuna {
     private String tipo;
 
     @NotNull
-    private Integer cantidad;
-
-    @NotNull
     private String descripcion;
 
-    public Vacuna(Long id, String nombre,String descripcion, String tipo, Integer cantidad) {
+    public Vacuna(Long id, String nombre,String descripcion, String tipo) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;
-        this.cantidad = cantidad;
         this.descripcion = descripcion;
     }
 
-    public Long getId() {
-        return id;
+    public Vacuna() {
+        super();
     }
 
-    public Vacuna(){
-        super();
+
+
+    public Long getId() {
+        return id;
     }
 
     public String getDescripcion() {
@@ -46,14 +53,6 @@ public class Vacuna {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
     }
 
     public void setId(Long id) {
