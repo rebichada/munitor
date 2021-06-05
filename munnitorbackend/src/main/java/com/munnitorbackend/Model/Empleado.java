@@ -91,6 +91,16 @@ public class Empleado {
         this.telefono = telefono;
     }
 
+    public Empleado(Direccion direccion, User user, Tambo tambo, String nombre, String apellido, int dni, String telefono) {
+        this.direccion = direccion;
+        this.user = user;
+        this.tambo = tambo;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.telefono = telefono;
+    }
+
     public Tambo getTambo() {
         return tambo;
     }

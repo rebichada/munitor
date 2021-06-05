@@ -31,6 +31,12 @@ public class Vacuna {
         this.descripcion = descripcion;
     }
 
+    public Vacuna(String nombre, String tipo, String descripcion) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+    }
+
     public Vacuna() {
         super();
     }

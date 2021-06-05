@@ -27,12 +27,10 @@ public class Empresa {
     private String razonSocial;
 
     @NotNull
-    @Column(length = 15)
     private String cuit;
 
     private String email;
 
-    @Column(length = 30)
     private String telefono;
 
     public Empresa() {
@@ -49,6 +47,14 @@ public class Empresa {
 
     public Empresa(Long id, Direccion direccion, String razonSocial, String cuit, String email, String telefono) {
         this.id = id;
+        this.direccion = direccion;
+        this.razonSocial = razonSocial;
+        this.cuit = cuit;
+        this.email = email;
+        this.telefono = telefono;
+    }
+
+    public Empresa(Direccion direccion, String razonSocial, String cuit, String email, String telefono) {
         this.direccion = direccion;
         this.razonSocial = razonSocial;
         this.cuit = cuit;

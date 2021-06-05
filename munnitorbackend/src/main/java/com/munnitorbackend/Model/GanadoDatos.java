@@ -65,6 +65,16 @@ public class GanadoDatos {
         this.fechaDeRegistro=fechaDeRegistro;
     }
 
+    public GanadoDatos(Ganado ganado, Double temperatura, int pasos, int cantidadComio, double peso, boolean comio, Date fechaDeRegistro) {
+        this.ganado = ganado;
+        this.temperatura = temperatura;
+        this.pasos = pasos;
+        this.cantidadComio = cantidadComio;
+        this.peso = peso;
+        this.comio = comio;
+        this.fechaDeRegistro = fechaDeRegistro;
+    }
+
     public Long getId() {
         return id;
     }

@@ -38,6 +38,12 @@ public class VacunaEmpresa {
         this.cantidadVacunas = cantidadVacunas;
     }
 
+    public VacunaEmpresa(Empresa empresa, Vacuna vacuna, Integer cantidadVacunas) {
+        this.empresa = empresa;
+        this.vacuna = vacuna;
+        this.cantidadVacunas = cantidadVacunas;
+    }
+
     public VacunaEmpresa(){
         super();
     }

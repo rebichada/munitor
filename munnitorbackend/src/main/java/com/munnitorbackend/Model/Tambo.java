@@ -22,7 +22,7 @@ public class Tambo {
     private Direccion direccion;
 
     @JoinColumn(name ="id_empresa", referencedColumnName = "id_empresa")
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Empresa empresa;
@@ -57,6 +57,14 @@ public class Tambo {
 
     public Tambo(Long id, Direccion direccion, Empresa empresa, String nombreTambo, String telefono, String nombreCuartel) {
         this.id = id;
+        this.direccion = direccion;
+        this.empresa = empresa;
+        this.nombreTambo = nombreTambo;
+        this.telefono = telefono;
+        this.nombreCuartel = nombreCuartel;
+    }
+
+    public Tambo(Direccion direccion, Empresa empresa, String nombreTambo, String telefono, String nombreCuartel) {
         this.direccion = direccion;
         this.empresa = empresa;
         this.nombreTambo = nombreTambo;

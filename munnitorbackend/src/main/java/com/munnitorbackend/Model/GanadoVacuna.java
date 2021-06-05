@@ -40,6 +40,12 @@ public class GanadoVacuna {
         this.fechaDeVacunacion = fechaDeVacunacion;
     }
 
+    public GanadoVacuna(Ganado ganado,Vacuna vacuna, Date fechaDeVacunacion) {
+        this.ganado = ganado;
+        this.vacuna = vacuna;
+        this.fechaDeVacunacion = fechaDeVacunacion;
+    }
+
     public GanadoVacuna(){
         super();
     }

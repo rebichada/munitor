@@ -24,7 +24,12 @@ public class TamboServiceImplements implements ITamboService{
     }
 
     @Override
-    public Tambo guardar(Tambo t) {
-        return tamboRepo.save(t);
+    public Tambo guardar(Tambo t) throws Exception {
+        try{
+            t= tamboRepo.save(t);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+        return t;
     }
 }

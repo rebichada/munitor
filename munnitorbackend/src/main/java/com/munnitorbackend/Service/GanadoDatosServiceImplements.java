@@ -199,8 +199,13 @@ public class GanadoDatosServiceImplements implements IGanadoDatosService{
     }
 
     @Override
-    public GanadoDatos guardar(GanadoDatos ganadoDatos) {
-        return ganadoDatosRepo.save(ganadoDatos);
+    public GanadoDatos guardar(GanadoDatos ganadoDatos) throws Exception {
+        try{
+            ganadoDatos=ganadoDatosRepo.save(ganadoDatos);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+        return ganadoDatos;
     }
 
 }

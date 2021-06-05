@@ -19,40 +19,40 @@ public class Caravana {
     private Long id;
 
     @JoinColumn(name ="id_empresa", referencedColumnName = "id_empresa")
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Empresa empresa;
 
-    @Column(name = "id_internacional",nullable = false,length = 5)
+    @Column(name = "id_internacional",nullable = false)
     private String idInternacional;
 
-    @Column(length = 10,nullable = false)
+    @Column(nullable = false)
     private String CUIG;
 
-    @Column(name = "color_caranavana",length = 1,nullable = false)
+    @Column(name = "color_caranavana",nullable = false)
     private char colorCaravana;
 
-    @Column(name = "digito_verificador",length = 1,nullable = false)
+    @Column(name = "digito_verificador",nullable = false)
     private char digitoVerificador;
 
-    @Column(name = "numero_manejo",length = 10,nullable = false)
+    @Column(name = "numero_manejo",nullable = false)
     private String numeroManejo;
 
-    @Column(name = "numero_RENSPA",length = 45,nullable = false)
+    @Column(name = "numero_RENSPA",nullable = false)
     private String numeroRENSPA;
 
-    @Column(name = "marca_fecha_produccion",length = 45)
+    @Column(name = "marca_fecha_produccion")
     private String marcaFechaProduccion;
 
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     @Column(name = "fecha_impresion",nullable = false)
     private Date fechaImpresion;
 
-    @Column(name = "numero_impresor",length = 10,nullable = false)
+    @Column(name = "numero_impresor",nullable = false)
     private String numeroImpresor;
 
-    @Column(name = "rango_impresor",length = 15,nullable = false)
+    @Column(name = "rango_impresor",nullable = false)
     private String rangoImpresor;
 
     public Caravana() {
@@ -75,6 +75,20 @@ public class Caravana {
 
     public Caravana(Long id, Empresa empresa, String idInternacional, String CUIG, char colorCaravana, char digitoVerificador, String numeroManejo, String numeroRENSPA, String marcaFechaProduccion, Date fechaImpresion, String numeroImpresor, String rangoImpresor) {
         this.id = id;
+        this.empresa = empresa;
+        this.idInternacional = idInternacional;
+        this.CUIG = CUIG;
+        this.colorCaravana = colorCaravana;
+        this.digitoVerificador = digitoVerificador;
+        this.numeroManejo = numeroManejo;
+        this.numeroRENSPA = numeroRENSPA;
+        this.marcaFechaProduccion = marcaFechaProduccion;
+        this.fechaImpresion = fechaImpresion;
+        this.numeroImpresor = numeroImpresor;
+        this.rangoImpresor = rangoImpresor;
+    }
+
+    public Caravana(Empresa empresa, String idInternacional, String CUIG, char colorCaravana, char digitoVerificador, String numeroManejo, String numeroRENSPA, String marcaFechaProduccion, Date fechaImpresion, String numeroImpresor, String rangoImpresor) {
         this.empresa = empresa;
         this.idInternacional = idInternacional;
         this.CUIG = CUIG;

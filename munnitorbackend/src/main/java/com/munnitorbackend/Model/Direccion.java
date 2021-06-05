@@ -59,6 +59,19 @@ public class Direccion {
         this.codigoPostal = codigoPostal;
     }
 
+    public Direccion(String nombreProvincia, String nombreLocalidad, String descripcionUbicacion, String nombreCalle, int numeroCalle, double latitud, double longitud, Long idProvincia, Long idLocalidad, String codigoPostal) {
+        this.nombreProvincia = nombreProvincia;
+        this.nombreLocalidad = nombreLocalidad;
+        this.descripcionUbicacion = descripcionUbicacion;
+        this.nombreCalle = nombreCalle;
+        this.numeroCalle = numeroCalle;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.idProvincia = idProvincia;
+        this.idLocalidad = idLocalidad;
+        this.codigoPostal = codigoPostal;
+    }
+
     public Long getId() {
         return id;
     }

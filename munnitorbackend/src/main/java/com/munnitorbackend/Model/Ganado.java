@@ -23,7 +23,7 @@ public class Ganado {
     @Nullable
     private Caravana caravana;
 
-    @JoinColumn(name="id_tambo", referencedColumnName = "id_tambo", unique = true)
+    @JoinColumn(name="id_tambo", referencedColumnName = "id_tambo")
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
@@ -32,7 +32,7 @@ public class Ganado {
     @Column(nullable = false, length = 1)
     private char sexo;
 
-    @Column(name = "cantidad_servidas", length = 1)
+    @Column(name = "cantidad_servidas")
     private int cantidadServidas;
 
     @NotNull
@@ -61,6 +61,15 @@ public class Ganado {
         this.sexo = sexo;
         this.descripcion = descripcion;
         this.cantidadServidas = cantidadServidas;
+        this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+
+    public Ganado(Caravana caravana, Tambo tambo,  int cantidadServidas,char sexo, String descripcion, Date fechaDeNacimiento) {
+        this.caravana = caravana;
+        this.tambo = tambo;
+        this.sexo = sexo;
+        this.cantidadServidas = cantidadServidas;
+        this.descripcion = descripcion;
         this.fechaDeNacimiento = fechaDeNacimiento;
     }
 

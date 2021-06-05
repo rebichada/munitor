@@ -11,7 +11,7 @@ import java.util.List;
 public class VacunaEmpresaServiceImplements implements IVacunaEmpresaService{
 
     @Autowired
-    VacunaEmpresaRepo vacunaEmpresaRepo;
+    private VacunaEmpresaRepo vacunaEmpresaRepo;
 
     @Override
     public VacunaEmpresa guardar(VacunaEmpresa vacunaEmpresa) {
