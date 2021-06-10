@@ -25,7 +25,7 @@ public interface EmpleadoRepo extends JpaRepository<Empleado,Long> {
     List<Empleado> findByIdAndEmpresaEqualsAndTamboEquals(@Param("id_empresa") Long id_empresa, @Param("id_tambo") Long id_tambo);
 
     //obtener empleado por su usuario
-    @Query("SELECT e FROM Empleado e INNER JOIN User u ON e.user.id=u.id " +
+    @Query("SELECT e FROM Empleado e INNER JOIN Usuario u ON e.usuario.id=u.id " +
            "INNER JOIN Direccion d ON d.id=e.direccion.id " +
            "WHERE u.id=:id_user")
     Empleado findByUserEquals(@Param("id_user") Long id_user);

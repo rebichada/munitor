@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class GanadoServiceImplements implements IGanadoService{
+public class GanadoServiceImplements implements IGanadoService {
 
     @Autowired
     private GanadoRepo ganadoRepo;

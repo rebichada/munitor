@@ -20,7 +20,9 @@ public class UserLoginDTO implements Serializable {
         this.email = email;
         this.password = password;
     }
-
+    public UserLoginDTO(){
+        super();
+    }
 
     public String getPassword() {
         return password;
@@ -28,10 +30,6 @@ public class UserLoginDTO implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public UserLoginDTO() {
-        super();
     }
 
     public String getEmail() {

@@ -54,37 +54,24 @@ class MunnitorbackendApplicationTests {
 
 
 		SimpleDateFormat dataFormat=  new SimpleDateFormat("dd-MM-yyyy");
+// el byte puede contener valores de -128 a 127
+		Usuario uPedro= new Usuario("pedro_zanchez@hotmail.com","admindEmpresa1","123",Byte.parseByte("3"),false);
+		Usuario uOmar= new Usuario("omar_zapata@hotmail.com","admindEmpresa2","123",Byte.parseByte("3"),false);
+		Usuario uJacinto= new Usuario("jacinto_rucula@hotmail.com","admindEmpresa3","123",Byte.parseByte("3"),false);
+		Usuario uJorge= new Usuario("jorge_kay@hotmail.com","root","123",Byte.parseByte("4"),false);
+		Usuario uJaimito= new Usuario("jaimito_melo@hotmail.com","user","123",Byte.parseByte("1"),false);
 
-		User uPedro= new User("pedro_zanchez@hotmail.com","pedro","sanchez","123",new Date(),"argentina");
-		User uOmar= new User("omar_zapata@hotmail.com","omar","zapata","123",new Date(),"colombia");
-		User uJacinto= new User("jacinto_rucula@hotmail.com","jacinto","rucula","123",new Date(),"uruguay");
-		User uJorge= new User("jorge_kay@hotmail.com","jorge","kay","123",new Date(),"brasil");
-		User uJaimito= new User("jaimito_melo@hotmail.com","jaimito","melo","123",new Date(),"argentina");
-
-		String fechaNacimientoPedro = "20-11-1980";
-		String fechaNacimientoJacinto = "02-04-1988";
-		String fechaNacimientoJaimito = "21-07-1990";
-		String fechaNacimientoOmar = "25-10-1996";
-		String fechaNacimientoJorge = "17-12-1976";
-		//seteo la fecha de nacimiento de cada uno
-
-		try {
-			uOmar.setBirthDate(dataFormat.parse(fechaNacimientoOmar));
-			uJacinto.setBirthDate(dataFormat.parse(fechaNacimientoJacinto));
-			uJorge.setBirthDate(dataFormat.parse(fechaNacimientoJorge));
-			uJaimito.setBirthDate(dataFormat.parse(fechaNacimientoJaimito));
-			uPedro.setBirthDate(dataFormat.parse(fechaNacimientoPedro));
-		}catch (Exception e){
-			throw new ParseException(e.getMessage(),e.getCause().hashCode());
-		}
 		//guardo los usuarios en la bd
-		userService.create(uJacinto);
-		userService.create(uOmar);
-		userService.create(uJorge);
-		userService.create(uJaimito);
-		userService.create(uPedro);
-		//-----------------------------------------
+        try {
+            userService.create(uJacinto);
+            userService.create(uOmar);
+            userService.create(uJorge);
+            userService.create(uJaimito);
+            userService.create(uPedro);
+            //-----------------------------------------
+        }catch(Exception e){
 
+        }
 		//creo las direcciones de los empleados
 		Direccion dOmar= new Direccion("Buenos Aires","Junin","","Rivadavia",2,0,0,1L,1L,"6000");
 		Direccion dJorge= new Direccion("Buenos Aires","Junin","","Hipolito Yrigoyen",500,0,0,1L,1L,"6000");
@@ -113,25 +100,25 @@ class MunnitorbackendApplicationTests {
 		try {
 
 
-		direccionService.guardarDireccion(dOmar);
-		direccionService.guardarDireccion(dJacinto);
-		direccionService.guardarDireccion(dJaimito);
-		direccionService.guardarDireccion(dJorge);
-		direccionService.guardarDireccion(dPedro);
-		//guardo las direcciones Tambos
-		direccionService.guardarDireccion(dTambo1);
-		direccionService.guardarDireccion(dTambo2);
-		direccionService.guardarDireccion(dTambo3);
-		direccionService.guardarDireccion(dTambo4);
-		direccionService.guardarDireccion(dTambo5);
-		direccionService.guardarDireccion(dTambo6);
-		direccionService.guardarDireccion(dTambo7);
-		direccionService.guardarDireccion(dTambo8);
-		//guardo las direcciones Empresas
-		direccionService.guardarDireccion(dEmpresa1);
-		direccionService.guardarDireccion(dEmpresa2);
-		direccionService.guardarDireccion(dEmpresa3);
-		direccionService.guardarDireccion(dEmpresa3Prueba);
+            direccionService.guardarDireccion(dOmar);
+            direccionService.guardarDireccion(dJacinto);
+            direccionService.guardarDireccion(dJaimito);
+            direccionService.guardarDireccion(dJorge);
+            direccionService.guardarDireccion(dPedro);
+            //guardo las direcciones Tambos
+            direccionService.guardarDireccion(dTambo1);
+            direccionService.guardarDireccion(dTambo2);
+            direccionService.guardarDireccion(dTambo3);
+            direccionService.guardarDireccion(dTambo4);
+            direccionService.guardarDireccion(dTambo5);
+            direccionService.guardarDireccion(dTambo6);
+            direccionService.guardarDireccion(dTambo7);
+            direccionService.guardarDireccion(dTambo8);
+            //guardo las direcciones Empresas
+            direccionService.guardarDireccion(dEmpresa1);
+            direccionService.guardarDireccion(dEmpresa2);
+            direccionService.guardarDireccion(dEmpresa3);
+            direccionService.guardarDireccion(dEmpresa3Prueba);
 		}
 		catch (Exception e){
 
@@ -174,11 +161,30 @@ class MunnitorbackendApplicationTests {
 
 		}
 		//creo los empleados
-		Empleado eOmar = new Empleado(dOmar,uOmar,t1,"Omar","zapata",29306582,"236-4523695");
-		Empleado eJacinto = new Empleado(dJacinto,uJacinto,t2,"Jacinto","Rucula",31306582,"2355-513252");
-		Empleado eJorge = new Empleado(dJorge,uJorge,t3,"Jorge","Kay",39306582,"236-4222596");
-		Empleado eJaimito = new Empleado(dJaimito,uJaimito,t7,"Jaimito","Melo",28306582,"2355-523695");
-		Empleado ePedro = new Empleado(dPedro,uPedro,t6,"Pedro","Sanchez",35306582,"247-753695");
+		Empleado eOmar = new Empleado(dOmar,uOmar,t1,"Omar","zapata",29306582,new Date(),"Argentina","236-4523695");
+		Empleado eJacinto = new Empleado(dJacinto,uJacinto,t2,"Jacinto","Rucula",31306582,new Date(),"Argentina","2355-513252");
+		Empleado eJorge = new Empleado(dJorge,uJorge,t3,"Jorge","Kay",39306582,new Date(),"Argentina","236-4222596");
+		Empleado eJaimito = new Empleado(dJaimito,uJaimito,t7,"Jaimito","Melo",28306582,new Date(),"Argentina","2355-523695");
+		Empleado ePedro = new Empleado(dPedro,uPedro,t6,"Pedro","Sanchez",35306582,new Date(),"Argentina","247-753695");
+
+		 String fechaNacimientoPedro = "20-11-1980";
+		 String fechaNacimientoJacinto = "02-04-1988";
+		 String fechaNacimientoJaimito = "21-07-1990";
+		 String fechaNacimientoOmar = "25-10-1996";
+		 String fechaNacimientoJorge = "17-12-1976";
+		 //seteo la fecha de nacimiento de cada uno
+
+		 try {
+		 eOmar.setFechaDeNacimiento(dataFormat.parse(fechaNacimientoOmar));
+		 eJacinto.setFechaDeNacimiento(dataFormat.parse(fechaNacimientoJacinto));
+		 eJorge.setFechaDeNacimiento(dataFormat.parse(fechaNacimientoJorge));
+		 eJaimito.setFechaDeNacimiento(dataFormat.parse(fechaNacimientoJaimito));
+		 ePedro.setFechaDeNacimiento(dataFormat.parse(fechaNacimientoPedro));
+		 }catch (Exception e){
+		 	throw new ParseException(e.getMessage(),e.getCause().hashCode());
+
+		 }
+
 		//guardo los empleados
 		try {
 			empleadoService.guardar(eOmar);
@@ -189,8 +195,6 @@ class MunnitorbackendApplicationTests {
 		}catch (Exception e){
 			throw new ParseException(e.getMessage(),e.getCause().hashCode());
 		}
-
-
 
 		//creo las vacunas
 		Vacuna v1= new Vacuna(1L,"Brucelosis","1 vez en la vida, terneras de 3 a 8 meses de edad.","viva cepa 19.");
@@ -204,16 +208,20 @@ class MunnitorbackendApplicationTests {
 		Vacuna v9= new Vacuna(9L,"Leptospirosis","Dos dosis preservicio, refuerzos anuales.","Inactivada cepas regionales.");
 
 		//guardo las vacunas
-		vacunaService.guardar(v1);
-		vacunaService.guardar(v2);
-		vacunaService.guardar(v3);
-		vacunaService.guardar(v4);
-		vacunaService.guardar(v5);
-		vacunaService.guardar(v6);
-		vacunaService.guardar(v7);
-		vacunaService.guardar(v8);
-		vacunaService.guardar(v9);
+        try {
+            vacunaService.guardar(v1);
+            vacunaService.guardar(v2);
+            vacunaService.guardar(v3);
+            vacunaService.guardar(v4);
+            vacunaService.guardar(v5);
+            vacunaService.guardar(v6);
+            vacunaService.guardar(v7);
+            vacunaService.guardar(v8);
+            vacunaService.guardar(v9);
+        }
+        catch (Exception e){
 
+        }
 		//creo las vacunas de las empresas
 		VacunaEmpresa v1e1 =  new VacunaEmpresa(empresa1,v1,20);
 		VacunaEmpresa v2e1 =  new VacunaEmpresa(empresa1,v2,50);
@@ -231,25 +239,27 @@ class MunnitorbackendApplicationTests {
 		VacunaEmpresa v7e3 =  new VacunaEmpresa(empresaTres3,v7,60);
 		VacunaEmpresa v8e3 =  new VacunaEmpresa(empresaTres3,v8,26);
 		VacunaEmpresa v9e3 =  new VacunaEmpresa(empresaTres3,v9,15);
+    try {
+        //guardo las vacunas de las empresas
+        vacunaEmpresaService.guardar(v1e1);
+        vacunaEmpresaService.guardar(v2e1);
+        vacunaEmpresaService.guardar(v3e1);
+        vacunaEmpresaService.guardar(v4e1);
+        vacunaEmpresaService.guardar(v5e1);
+        vacunaEmpresaService.guardar(v6e1);
 
-		//guardo las vacunas de las empresas
-		vacunaEmpresaService.guardar(v1e1);
-		vacunaEmpresaService.guardar(v2e1);
-		vacunaEmpresaService.guardar(v3e1);
-		vacunaEmpresaService.guardar(v4e1);
-		vacunaEmpresaService.guardar(v5e1);
-		vacunaEmpresaService.guardar(v6e1);
+        vacunaEmpresaService.guardar(v1e2);
+        vacunaEmpresaService.guardar(v5e2);
+        vacunaEmpresaService.guardar(v3e2);
 
-		vacunaEmpresaService.guardar(v1e2);
-		vacunaEmpresaService.guardar(v5e2);
-		vacunaEmpresaService.guardar(v3e2);
+        vacunaEmpresaService.guardar(v2e3);
+        vacunaEmpresaService.guardar(v3e3);
+        vacunaEmpresaService.guardar(v7e3);
+        vacunaEmpresaService.guardar(v8e3);
+        vacunaEmpresaService.guardar(v9e3);
+    }catch (Exception e){
 
-		vacunaEmpresaService.guardar(v2e3);
-		vacunaEmpresaService.guardar(v3e3);
-		vacunaEmpresaService.guardar(v7e3);
-		vacunaEmpresaService.guardar(v8e3);
-		vacunaEmpresaService.guardar(v9e3);
-
+    }
 
 		//GUARDO LAS CARAVANADAS
 
@@ -680,8 +690,6 @@ class MunnitorbackendApplicationTests {
 		}
 
 	}
-
-
 
 
 }

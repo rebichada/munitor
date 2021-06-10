@@ -155,6 +155,8 @@ public class Empleado {
         this.dni = dni;
     }
 
+
+
     public String getTelefono() {
         return telefono;
     }
@@ -163,4 +165,27 @@ public class Empleado {
         this.telefono = telefono;
     }
 
+/**
+ *  public String getEmail() {
+ *         return email;
+ *     }
+ *
+ *     public void setEmail(String email) {
+ *         this.email = email;
+ *     }
+ * public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getPasswordUsuario() {
+        return passwordUsuario;
+    }
+
+    public void setPasswordUsuario(String passwordUsuario) {
+        this.passwordUsuario = passwordUsuario;
+    }**/
 }
