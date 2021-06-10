@@ -42,6 +42,7 @@ public class UserServiceImplement implements IUserService {
         //si no existe el email y ese nombre de usuario ese en la bd lo guardo
         if(!repo.existsByEmail(usuario.getEmail())){
             if (!repo.existsByNombreUsuario(usuario.getNombreUsuario())){
+                usuario.setActivo(true);
                 usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
                 usuario =repo.save(usuario);
             }else{

@@ -5,18 +5,36 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class RequestDatosDelGanadoDTO implements Serializable {
+    private Long id;
     private Long idGanado;
     private Double temperatura;
-    private int cantidadPasos;
+    private boolean movimiento;
 
     public RequestDatosDelGanadoDTO(){
         super();
     }
 
-    public RequestDatosDelGanadoDTO(Long idGanado, Double temperatura, int cantidadPasos) {
+    public RequestDatosDelGanadoDTO(Long id,Long idGanado, Double temperatura, boolean movimiento) {
+        this.id=id;
         this.idGanado = idGanado;
         this.temperatura = temperatura;
-        this.cantidadPasos = cantidadPasos;
+        this.movimiento=movimiento;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isMovimiento() {
+        return movimiento;
+    }
+
+    public void setMovimiento(boolean movimiento) {
+        this.movimiento = movimiento;
     }
 
     public Long getIdGanado() {
@@ -33,14 +51,6 @@ public class RequestDatosDelGanadoDTO implements Serializable {
 
     public void setTemperatura(Double temperatura) {
         this.temperatura = temperatura;
-    }
-
-    public int getCantidadPasos() {
-        return cantidadPasos;
-    }
-
-    public void setCantidadPasos(int cantidadPasos) {
-        this.cantidadPasos = cantidadPasos;
     }
 
 }

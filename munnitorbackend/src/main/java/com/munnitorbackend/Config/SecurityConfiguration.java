@@ -30,19 +30,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     //ver este qualifier si compila o no con esto
     @Qualifier("userServiceImplement")
     @Autowired
     public UserDetailsService userDetailsService;
-
-
-    @Bean
-    public JwtFilter jwtFilter(){
-        return new JwtFilter();
-    }
 
     @Bean 
      public BCryptPasswordEncoder passwordEncoder(){

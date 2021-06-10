@@ -48,16 +48,14 @@ public class GanadoController {
      }
      **/
     @GetMapping("/datosSensor")
-    public String RequestDatosGanado(Model model){
-        model.addAttribute("datosDelGanado", new RequestDatosDelGanadoDTO());
+    public String RequestDatosGanado(){
         return "/datosSensor";
     }
 
     @PostMapping ("/datosSensor")
     public ResponseEntity<GanadoDatos> guardarDatosGanado(@RequestBody RequestDatosDelGanadoDTO datosDelGanado){
-        GanadoDatos datos = new GanadoDatos();
         try{
-            datos= modelMapper.map(datosDelGanado, GanadoDatos.class);
+            GanadoDatos datos= modelMapper.map(datosDelGanado, GanadoDatos.class);
             datos.setFechaDeRegistro(new Date());
             GanadoDatos ganadoDatos = ganadoDatosService.guardar(datos);
             if (datos.getTemperatura() > 40 && datos.getTemperatura() < 35){

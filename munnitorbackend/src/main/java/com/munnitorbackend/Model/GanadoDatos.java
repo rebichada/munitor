@@ -36,6 +36,9 @@ public class GanadoDatos {
     @Column(name = "bool_comio")
     private boolean comio;
 
+    @Column(name = "bool_movimiento")
+    private boolean movimiento;
+
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "fecha_de_registro")
     private Date fechaDeRegistro;
@@ -44,7 +47,7 @@ public class GanadoDatos {
         super();
     }
 
-    public GanadoDatos(Long id, Ganado ganado,Date fechaDeRegistro, Double temperatura, int pasos, int cantidadComio, double peso, boolean comio) {
+    public GanadoDatos(Long id, Ganado ganado,Date fechaDeRegistro, Double temperatura, int pasos, int cantidadComio, double peso, boolean comio, boolean movimiento) {
         this.id = id;
         this.ganado = ganado;
         this.temperatura = temperatura;
@@ -53,9 +56,10 @@ public class GanadoDatos {
         this.peso = peso;
         this.comio = comio;
         this.fechaDeRegistro=fechaDeRegistro;
+        this.movimiento=movimiento;
     }
 
-    public GanadoDatos(Long id, Double temperatura,Date fechaDeRegistro, int pasos, int cantidadComio, double peso, boolean comio) {
+    public GanadoDatos(Long id, Double temperatura,Date fechaDeRegistro, int pasos, int cantidadComio, double peso, boolean comio, boolean movimiento) {
         this.id = id;
         this.temperatura = temperatura;
         this.pasos = pasos;
@@ -63,9 +67,10 @@ public class GanadoDatos {
         this.peso = peso;
         this.comio = comio;
         this.fechaDeRegistro=fechaDeRegistro;
+        this.movimiento=movimiento;
     }
 
-    public GanadoDatos(Ganado ganado, Double temperatura, int pasos, int cantidadComio, double peso, boolean comio, Date fechaDeRegistro) {
+    public GanadoDatos(Ganado ganado, Double temperatura, int pasos, int cantidadComio, double peso, boolean comio, Date fechaDeRegistro, boolean movimiento) {
         this.ganado = ganado;
         this.temperatura = temperatura;
         this.pasos = pasos;
@@ -73,6 +78,7 @@ public class GanadoDatos {
         this.peso = peso;
         this.comio = comio;
         this.fechaDeRegistro = fechaDeRegistro;
+        this.movimiento=movimiento;
     }
 
     public Long getId() {

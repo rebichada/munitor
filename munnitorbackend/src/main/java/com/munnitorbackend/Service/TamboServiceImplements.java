@@ -32,4 +32,12 @@ public class TamboServiceImplements implements ITamboService{
         }
         return t;
     }
+
+    @Override
+    public Tambo obtenerTamboPorEmpleado(Long idEmpleado) {
+        Tambo t= tamboRepo.findByEmpleado(idEmpleado);
+        return t;
+    }
+
+
 }
