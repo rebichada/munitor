@@ -58,10 +58,10 @@ public class GanadoController {
             GanadoDatos datos= modelMapper.map(datosDelGanado, GanadoDatos.class);
             datos.setFechaDeRegistro(new Date());
             GanadoDatos ganadoDatos = ganadoDatosService.guardar(datos);
-            if (datos.getTemperatura() > 40 && datos.getTemperatura() < 35){
-                return ResponseEntity.ok(datos);
-            }else{
+            if (datos.getTemperatura() > 40 || datos.getTemperatura() < 35){
                 return ResponseEntity.created(new URI("/notificarTemperatura/"+ ganadoDatos.getId())).body(ganadoDatos);
+            }else{
+                return ResponseEntity.ok(datos);
             }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
