@@ -61,7 +61,7 @@ public class GanadoController {
             if (datos.getTemperatura() > 40 || datos.getTemperatura() < 35){
                 return ResponseEntity.created(new URI("/notificarTemperatura/"+ ganadoDatos.getId())).body(ganadoDatos);
             }else{
-                return ResponseEntity.ok(datos);
+                return ResponseEntity.created(new URI("/datosSensor")).body(ganadoDatos);
             }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

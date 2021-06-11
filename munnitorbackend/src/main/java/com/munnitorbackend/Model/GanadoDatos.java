@@ -81,6 +81,14 @@ public class GanadoDatos {
         this.movimiento=movimiento;
     }
 
+    public boolean isMovimiento() {
+        return movimiento;
+    }
+
+    public void setMovimiento(boolean movimiento) {
+        this.movimiento = movimiento;
+    }
+
     public Long getId() {
         return id;
     }
