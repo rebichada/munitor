@@ -63,7 +63,7 @@ public class TamboServiceImplements implements ITamboService{
         try{
             return tamboRepo.findById(id).get();
         }catch (EmptyResultDataAccessException emptyResultDataAccessException){
-            throw new Exception("No existe este tambo.");
+            throw new Exception("No existe este tambo: "+ id);
         }
         catch (Exception e){
             throw new Exception("Ocurrio un error al intentar obtener el tambo: "+id);

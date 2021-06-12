@@ -28,7 +28,7 @@ public class EmpresaController {
             List<Empresa> empresas =empresaServiceImplements.listarEmpresas();
             return new ResponseEntity(empresas, HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -68,9 +68,9 @@ public class EmpresaController {
     public ResponseEntity<?> update(@RequestBody Empresa empresa){
 
         try{
-            if(!empresaServiceImplements.existsByEmail(empresa.getEmail())) return new ResponseEntity("Ya existe este mail asignado a otra empresa.", HttpStatus.NOT_ACCEPTABLE);
-            if(!empresaServiceImplements.existsByCuit(empresa.getCuit())) return new ResponseEntity("Ya existe este cuit asignado a otra empresa.", HttpStatus.NOT_ACCEPTABLE);
-            if(!empresaServiceImplements.existsByRazonSocial(empresa.getRazonSocial())) return new ResponseEntity("Ya existe esta razon social asignada a otra empresa.", HttpStatus.NOT_ACCEPTABLE);
+            if(!empresaServiceImplements.existsByEmail(empresa.getEmail())) return new ResponseEntity("Ya existe este mail asignado a otra empresa.", HttpStatus.BAD_REQUEST);
+            if(!empresaServiceImplements.existsByCuit(empresa.getCuit())) return new ResponseEntity("Ya existe este cuit asignado a otra empresa.", HttpStatus.BAD_REQUEST);
+            if(!empresaServiceImplements.existsByRazonSocial(empresa.getRazonSocial())) return new ResponseEntity("Ya existe esta razon social asignada a otra empresa.", HttpStatus.BAD_REQUEST);
             empresaServiceImplements.guardar(empresa);
             return new ResponseEntity("Empresa registrada.", HttpStatus.CREATED);
         }catch (Exception e){

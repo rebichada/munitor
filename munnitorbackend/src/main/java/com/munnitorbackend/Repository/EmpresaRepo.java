@@ -16,6 +16,11 @@ public interface EmpresaRepo extends JpaRepository<Empresa,Long> {
             "WHERE t.id=:id_tambo")
     Empresa findByTamboEquals(@Param("id_tambo") Long id_tambo);
 
+    //me fijo si la empresa contiene a este tambo
+    @Query("SELECT e FROM Tambo t INNER JOIN Empresa e ON e.id=t.empresa.id " +
+            "WHERE t.id=:id_tambo")
+    boolean existsByIdTambo(@Param("id_tambo") Long id_tambo);
+
     //obtener la empresa de un empleado especifico
     @Query("SELECT e FROM Empresa e INNER JOIN Tambo t on e.id=t.empresa.id " +
             "INNER JOIN Empleado empleado ON empleado.tambo.id=t.id " +
