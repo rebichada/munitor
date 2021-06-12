@@ -55,23 +55,26 @@ class MunnitorbackendApplicationTests {
 
 		SimpleDateFormat dataFormat=  new SimpleDateFormat("dd-MM-yyyy");
 // el byte puede contener valores de -128 a 127
-		Usuario uPedro= new Usuario("pedro_zanchez@hotmail.com","admindEmpresa1","123",Byte.parseByte("3"),false);
+		//Usuario uPedro= new Usuario("pedro_zanchez@hotmail.com","admindEmpresa1","123",Byte.parseByte("3"),false);
 		Usuario uOmar= new Usuario("omar_zapata@hotmail.com","admindEmpresa2","123",Byte.parseByte("3"),false);
-		Usuario uJacinto= new Usuario("jacinto_rucula@hotmail.com","admindEmpresa3","123",Byte.parseByte("3"),false);
-		Usuario uJorge= new Usuario("jorge_kay@hotmail.com","root","123",Byte.parseByte("4"),false);
-		Usuario uJaimito= new Usuario("jaimito_melo@hotmail.com","user","123",Byte.parseByte("1"),false);
+		//Usuario uJacinto= new Usuario("jacinto_rucula@hotmail.com","admindEmpresa3","123",Byte.parseByte("3"),false);
+		//Usuario uJorge= new Usuario("jorge_kay@hotmail.com","root","123",Byte.parseByte("4"),false);
+		//Usuario uJaimito= new Usuario("jaimito_melo@hotmail.com","user","123",Byte.parseByte("1"),false);
 
 		//guardo los usuarios en la bd
         try {
-            userService.create(uJacinto);
-            userService.create(uOmar);
+        	userService.create(uOmar);
+          /**  userService.create(uJacinto);
+
             userService.create(uJorge);
             userService.create(uJaimito);
             userService.create(uPedro);
-            //-----------------------------------------
+            //----------------------------------------
+		   **/
         }catch(Exception e){
 
         }
+        /**
 		//creo las direcciones de los empleados
 		Direccion dOmar= new Direccion("Buenos Aires","Junin","","Rivadavia",2,0,0,1L,1L,"6000");
 		Direccion dJorge= new Direccion("Buenos Aires","Junin","","Hipolito Yrigoyen",500,0,0,1L,1L,"6000");
@@ -687,8 +690,7 @@ class MunnitorbackendApplicationTests {
 			}catch (Exception e){
 
 			}
-		}
-
+		}**/
 	}
 
 

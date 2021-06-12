@@ -19,8 +19,8 @@ public class EmpleadoServiceImplements implements IEmpleadoService{
     }
 
     @Override
-    public List<Empleado> obtenerEmpleadosEmpresaTambo(Long idEmpresa, Long idTambo) {
-        return empleadoRepo.findByIdAndEmpresaEqualsAndTamboEquals(idEmpresa,idTambo);
+    public List<Empleado> obtenerEmpleadosTambo(Long idTambo) {
+        return empleadoRepo.findByIdTamboEquals(idTambo);
     }
 
     @Override

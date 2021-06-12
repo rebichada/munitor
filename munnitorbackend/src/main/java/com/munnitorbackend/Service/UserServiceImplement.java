@@ -2,7 +2,10 @@ package com.munnitorbackend.Service;
 
 import com.munnitorbackend.Model.Usuario;
 import com.munnitorbackend.Repository.UserRepo;
+import org.hibernate.engine.spi.ExceptionConverter;
+import org.modelmapper.internal.bytebuddy.dynamic.DynamicType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -31,8 +34,9 @@ public class UserServiceImplement implements IUserService {
                 throw new UsernameNotFoundException("Usuario no encontrado.");
             }
         }
-        User userDetail = new User(usuario.getNombreUsuario(), usuario.getPassword(),usuario.isActivo(), usuario.isActivo(), usuario.isActivo(), usuario.isActivo(), usuario.getAuthorities());
-        return userDetail;
+        return usuario;
+        //User userDetail = new User(usuario.getNombreUsuario(), usuario.getPassword(),usuario.isActivo(), usuario.isActivo(), usuario.isActivo(), usuario.isActivo(), usuario.getAuthorities());
+        //return userDetail;
     }
 
 
@@ -53,5 +57,25 @@ public class UserServiceImplement implements IUserService {
             throw new UsernameNotFoundException("The email : "+ usuario.getEmail() +" it is already associated with a user. Try Again with another User");
         }
         return usuario;
+    }
+
+    @Override
+    public boolean existsById(String id) {
+        if (repo.findById(Long.parseLong(id))!= null){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void deleteUser(String id) throws Exception{
+        try{
+            repo.deleteById(Long.parseLong(id));
+        }catch (EmptyResultDataAccessException emptyResultDataAccessException){
+            throw new Exception("Usuario no encontrado.");
+        }
+        catch (Exception e){
+            throw new Exception("Error al intentar eliminar el usuario en el servicio.");
+        }
     }
 }

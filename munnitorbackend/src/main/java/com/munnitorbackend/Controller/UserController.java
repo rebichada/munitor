@@ -4,8 +4,6 @@ package com.munnitorbackend.Controller;
 import com.munnitorbackend.DTO.UserLoginDTO;
 import com.munnitorbackend.DTO.UserNewDTO;
 import com.munnitorbackend.Model.Empleado;
-import com.munnitorbackend.Model.Empresa;
-import com.munnitorbackend.Model.Tambo;
 import com.munnitorbackend.Model.Usuario;
 import com.munnitorbackend.Service.*;
 import org.modelmapper.ModelMapper;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.ParseException;
 
 @RestController
 @RequestMapping("/users")
@@ -54,7 +50,7 @@ public class UserController {
 
     //@PreAuthorize("hasRole('LECTOR,USUARIO,ADMINISTRADOR,ROOT')")
     @PostMapping("/new")
-    public ResponseEntity<Usuario> regist(@RequestBody UserNewDTO usuarioNuevo) throws URISyntaxException {
+    public ResponseEntity<?> regist(@RequestBody UserNewDTO usuarioNuevo) throws URISyntaxException {
 
         try{
             //el rol lo obtengo como un STRING
@@ -68,7 +64,7 @@ public class UserController {
             usuario = userService.create(usuario);
             return ResponseEntity.created(new URI("/principal/")).body(usuario);
         }catch(UsernameNotFoundException errorU){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return new ResponseEntity(new Mensaje(errorU.getMessage()),HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -78,20 +74,39 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginDTO> login(@AuthenticationPrincipal @RequestBody UserLoginDTO userLoginDTO) throws URISyntaxException {
+    public ResponseEntity<?> login(@AuthenticationPrincipal @RequestBody UserLoginDTO userLoginDTO) {
         try {
             Usuario usuario = modelMapper.map(userLoginDTO, Usuario.class);
             usuario=(Usuario) userDetailService.loadUserByUsername(usuario.getEmail());
-            if (usuario!= null) {
-                Empleado empleado = empleadoService.findById(usuario.getId());
-                Tambo tambo = tamboService.obtenerTamboPorEmpleado(empleado.getId());
-                Empresa empresa = empresaService.obtenerEmpresaPorIdEmpleado(empleado.getId());
-                return ResponseEntity.created(new URI("ganado/principal/?idTambo=" + tambo.getId() + "&idEmpresa=" + empresa.getId())).body(userLoginDTO);
+            if (usuario.getNombreUsuario().equals("root")){
+                return new ResponseEntity(userLoginDTO,HttpStatus.OK);
             }
-        } catch (UsernameNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            else{
+                Empleado empleado = empleadoService.obtenerEmpleadoPorIdUser(usuario.getId());
+                return new ResponseEntity(empleado,HttpStatus.OK);
+            }
+        } catch (UsernameNotFoundException e1) {
+            return new ResponseEntity(new Mensaje(e1.getMessage()), HttpStatus.BAD_REQUEST);
+        }catch (Exception e2){
+            return new ResponseEntity("Usuario sin empleado asignado.", HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id){
+        if(!userService.existsById(id)) return new ResponseEntity("No existe el usuario.", HttpStatus.NOT_FOUND);
+        try{
+            Empleado empleado=empleadoService.obtenerEmpleadoPorIdUser(Long.parseLong(id));
+            if (empleado!= null){
+                return new ResponseEntity("Este usuario esta siendo utilizado por el empleado "+ empleado.getNombre() + ", dni: " +
+                         empleado.getDni() + ". Debe eliminar este empleado previamente.", HttpStatus.BAD_REQUEST);
+            }
+            userService.deleteUser(id);
+        }catch (Exception e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity("usuario eliminado.", HttpStatus.OK);
+    }
+
 
 }

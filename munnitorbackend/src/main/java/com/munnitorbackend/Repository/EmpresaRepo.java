@@ -23,4 +23,9 @@ public interface EmpresaRepo extends JpaRepository<Empresa,Long> {
             "WHERE empleado.id=:id_empleado")
     Empresa findByEmpleadoEquals(@Param("id_empleado") Long id_empleado);
 
+
+    boolean existsByCuit(String cuit);
+    boolean existsByEmail(String email);
+    boolean existsByRazonSocial(String razonSocial);
+
 }

@@ -8,8 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -101,10 +99,13 @@ public class GanadoController {
         }
     }
 
-   @GetMapping("/verGanado")
-   public ResponseEntity<Ganado> getGanado(@RequestParam(value = "idGanado") String idGanado){
+   @GetMapping("/{idGanado}")
+   public ResponseEntity<?> getGanado(@PathVariable(value = "idGanado") String idGanado){
         try{
-            return ResponseEntity.ok(ganadoService.obtenerPorId(Long.parseLong(idGanado)));
+            if (ganadoService.obtenerPorId(Long.parseLong(idGanado))!= null){
+                return ResponseEntity.ok(ganadoService.obtenerPorId(Long.parseLong(idGanado)));
+            }
+            return new ResponseEntity(new Mensaje("No se encontro este ganado."), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -113,7 +114,7 @@ public class GanadoController {
 
     //LISTADO DE TODO GANADO QUE PERTENECE A UNA EMPRESA
     @GetMapping("/verGanadoEmpresa")
-    public ResponseEntity<List<Ganado>> getGanadoEMpresa(@RequestParam(value = "idEmpresa") @Validated String idEmpresa){
+    public ResponseEntity<List<?>> getGanadoEMpresa(@PathVariable(value = "idEmpresa") @Validated String idEmpresa){
         try{
             return ResponseEntity.ok(ganadoService.listarPorEmpresa(Long.parseLong(idEmpresa)));
         }catch (Exception e){

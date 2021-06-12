@@ -67,18 +67,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/users/new").permitAll()
-                .antMatchers(HttpMethod.POST, "/ganado/datosSensor").permitAll()
-                .and().formLogin()
-                //referencia al metodo get
-                .loginPage("/users/login")
-                .permitAll()
-                //hace referencia al controlador de tipo get
-                .defaultSuccessUrl("/home")
-                .failureUrl("/users/login?error=true")
-                //hace referencia al los name de los labels dentro del index.html
-                .usernameParameter("email")
-                .passwordParameter("password");
-
+                .antMatchers("/users/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/ganado/datosSensor").permitAll();
         http
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IEmpleadoService {
     List<Empleado> obtenerEmpleadosEmpresa(Long idEmpresa);
-    List<Empleado> obtenerEmpleadosEmpresaTambo(Long idEmpresa, Long idTambo);
+    List<Empleado> obtenerEmpleadosTambo(Long idTambo);
     Empleado newEmpleado(Empleado empleado) throws Exception;
     Empleado obtenerEmpleadoPorIdUser(Long idUser);
     Empleado findById(Long idEmpleado);
