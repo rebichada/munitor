@@ -105,7 +105,7 @@ public class GanadoController {
             if (ganadoService.obtenerPorId(Long.parseLong(idGanado))!= null){
                 return ResponseEntity.ok(ganadoService.obtenerPorId(Long.parseLong(idGanado)));
             }
-            return new ResponseEntity(new Mensaje("No se encontro este ganado."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("No se encontro este ganado.", HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

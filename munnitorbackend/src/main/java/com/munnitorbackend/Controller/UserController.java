@@ -64,7 +64,7 @@ public class UserController {
             usuario = userService.create(usuario);
             return ResponseEntity.created(new URI("/principal/")).body(usuario);
         }catch(UsernameNotFoundException errorU){
-            return new ResponseEntity(new Mensaje(errorU.getMessage()),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(errorU.getMessage(),HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -86,7 +86,7 @@ public class UserController {
                 return new ResponseEntity(empleado,HttpStatus.OK);
             }
         } catch (UsernameNotFoundException e1) {
-            return new ResponseEntity(new Mensaje(e1.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }catch (Exception e2){
             return new ResponseEntity("Usuario sin empleado asignado.", HttpStatus.BAD_REQUEST);
         }
