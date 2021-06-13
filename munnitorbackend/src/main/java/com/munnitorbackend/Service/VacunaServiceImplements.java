@@ -1,10 +1,7 @@
 package com.munnitorbackend.Service;
 
 import com.munnitorbackend.Model.Vacuna;
-import com.munnitorbackend.Repository.EmpresaRepo;
-import com.munnitorbackend.Repository.GanadoRepo;
-import com.munnitorbackend.Repository.TamboRepo;
-import com.munnitorbackend.Repository.VacunaRepo;
+import com.munnitorbackend.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -26,6 +23,9 @@ public class VacunaServiceImplements implements IVacunaService{
 
     @Autowired
     private GanadoRepo ganadoRepo;
+
+    @Autowired
+    private VacunaEmpresaRepo vacunaEmpresaRepo;
 
     @Override
     public Vacuna obtenerVacunaDentroDeEmpresa(Long idEmpresa, Long idVacuna) throws Exception {
@@ -195,12 +195,22 @@ public class VacunaServiceImplements implements IVacunaService{
 
     @Override
     public Vacuna guardar(Vacuna v) throws Exception{
-        return vacunaRepo.save(v);
+        try {
+            return vacunaRepo.save(v);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicio de la vacuna. Error: "+ e.getMessage());
+        }
     }
 
     @Override
     public void eliminarVacunaDentroDeEmpresa(Long idEmpresa, Long IdVacuna) throws Exception {
-
+        try{
+            if (!empresaRepo.existsById(idEmpresa)) throw new Exception("No existe la empresa con este codigo: "+ idEmpresa);
+            vacunaRepo.deleteById(IdVacuna);
+            vacunaEmpresaRepo.deleteById(idEmpresa);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicio de la vacuna. Error: "+ e.getMessage());
+        }
     }
 
     @Override

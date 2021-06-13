@@ -44,8 +44,8 @@ public class UserController {
     private ModelMapper modelMapper;
 
     @GetMapping("/new")
-    public String userNew(){
-        return "users/new";
+    public ResponseEntity<?> userNew(){
+        return new ResponseEntity("Ingreso a la creación de usuarios.",HttpStatus.OK);
     }
 
     //@PreAuthorize("hasRole('LECTOR,USUARIO,ADMINISTRADOR,ROOT')")
@@ -69,8 +69,8 @@ public class UserController {
 
     }
     @GetMapping("/login")
-    public String userLogin(){
-        return "/users/login";
+    public ResponseEntity<?> userLogin(){
+        return new ResponseEntity("Ingreso al Login.",HttpStatus.OK);
     }
 
     @PostMapping("/login")
