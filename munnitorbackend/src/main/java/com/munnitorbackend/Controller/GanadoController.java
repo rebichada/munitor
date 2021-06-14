@@ -1,6 +1,8 @@
 package com.munnitorbackend.Controller;
 
 import com.munnitorbackend.DTO.RequestDatosDelGanadoDTO;
+import com.munnitorbackend.DTO.ResponseDatosDelGanadoDTO;
+import com.munnitorbackend.Model.Caravana;
 import com.munnitorbackend.Model.Ganado;
 import com.munnitorbackend.Model.GanadoDatos;
 import com.munnitorbackend.Service.*;
@@ -40,6 +42,15 @@ public class GanadoController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @PostMapping("/new")
+    public ResponseEntity<?> crear(@RequestBody Ganado ganado){
+        try{
+            return new ResponseEntity(ganadoService.guardar(ganado),HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /**POST PARA ALMACENAR LOS DATOS DEL SENSOR, EL JSON DEBE SER:
     {
      "IdGanado:Long (not null)",
@@ -57,16 +68,15 @@ public class GanadoController {
     }
 
     @PostMapping ("/datosSensor")
-    public ResponseEntity<GanadoDatos> guardarDatosGanado(@RequestBody RequestDatosDelGanadoDTO datosDelGanado){
+    public ResponseEntity<?> guardarDatosGanado(@RequestBody RequestDatosDelGanadoDTO datosDelGanado){
         try{
             GanadoDatos datos= modelMapper.map(datosDelGanado, GanadoDatos.class);
             datos.setFechaDeRegistro(new Date());
             GanadoDatos ganadoDatos = ganadoDatosService.guardar(datos);
-            if (datos.getTemperatura() > 40 || datos.getTemperatura() < 35){
-                return ResponseEntity.created(new URI("/notificarTemperatura/"+ ganadoDatos.getId())).body(ganadoDatos);
-            }else{
-                return ResponseEntity.created(new URI("/datosSensor")).body(ganadoDatos);
+            if (datos.getTemperatura() > 40 || datos.getTemperatura() < 35) {
+                //crear notificacion;
             }
+            return new ResponseEntity("Datos guardados: " + ganadoDatos,HttpStatus.CREATED);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -74,7 +84,7 @@ public class GanadoController {
     @GetMapping("/principal")
     public ResponseEntity<List<?>> getGanadoMasTemperaturaMasCantPasos(@RequestParam(value = "idTambo") String idTambo, @RequestParam(value = "idEmpresa") String idEmpresa){
         List<GanadoDatos>ganadoDatos;
-        List<RequestDatosDelGanadoDTO> resultadoGanado;
+        List<ResponseDatosDelGanadoDTO> resultadoGanado;
         try {
             //obtengo toodos los ganados de esta empresa y tambo con su ultima temperatura en su ultimo registro
             if(!empresaService.existsById(Long.parseLong(idEmpresa))) return new ResponseEntity("Esta empresa con este codigo: " + idEmpresa + " no se fue encontrado. "  ,HttpStatus.OK);
@@ -84,16 +94,15 @@ public class GanadoController {
 
             //filtro por el object Ganado y mapeo para solo enviar los datos necesarios
             resultadoGanado= ganadoDatos.stream()
-                    .map(ganadoDatos1 -> modelMapper.map(ganadoDatos1, RequestDatosDelGanadoDTO.class))
+                    .map(ganadoDatos1 -> modelMapper.map(ganadoDatos1, ResponseDatosDelGanadoDTO.class))
                     .collect(Collectors.toList());
 
             for (GanadoDatos gd:ganadoDatos) {
-                for (RequestDatosDelGanadoDTO requestDatosDelGanadoDTO:resultadoGanado) {
-                    if (gd.getId()==requestDatosDelGanadoDTO.getId()){
-                        requestDatosDelGanadoDTO.setCuig(gd.getGanado().getCaravana().getCUIG());
+                for (ResponseDatosDelGanadoDTO responseDatosDelGanadoDTO:resultadoGanado) {
+                    if (gd.getId()==responseDatosDelGanadoDTO.getId()){
+                        responseDatosDelGanadoDTO.setCuig(gd.getGanado().getCaravana().getCUIG());
                     }
                 }
-
             }
 
             return ResponseEntity.ok(resultadoGanado);

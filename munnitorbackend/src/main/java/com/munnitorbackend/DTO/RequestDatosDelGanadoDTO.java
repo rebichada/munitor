@@ -3,46 +3,26 @@ package com.munnitorbackend.DTO;
 import java.io.Serializable;
 
 public class RequestDatosDelGanadoDTO implements Serializable {
-    private Long id;
     private Long idGanado;
-    private String cuig;
     private Double temperatura;
-    private int pasos;
+    private boolean movimiento;
 
     public RequestDatosDelGanadoDTO(){
         super();
     }
 
-    public RequestDatosDelGanadoDTO(Long id, Long idGanado, String cuig, Double temperatura, int pasos) {
-        this.id=id;
+    public RequestDatosDelGanadoDTO(Long idGanado, Double temperatura,boolean movimiento) {
         this.idGanado = idGanado;
-        this.cuig = cuig;
+        this.movimiento=movimiento;
         this.temperatura = temperatura;
-        this.pasos=pasos;
     }
 
-    public String getCuig() {
-        return cuig;
+    public boolean isMovimiento() {
+        return movimiento;
     }
 
-    public void setCuig(String cuig) {
-        this.cuig = cuig;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getPasos() {
-        return pasos;
-    }
-
-    public void setPasos(int pasos) {
-        this.pasos = pasos;
+    public void setMovimiento(boolean movimiento) {
+        this.movimiento = movimiento;
     }
 
     public Long getIdGanado() {

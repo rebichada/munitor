@@ -14,7 +14,7 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
     //----------------------------------------------------------LISTA DE GANADOS----------------------------------------------------------
 
     //obtener las vacas que dieron mas o igual de x cantidad de pasos
-    @Query(value = "SELECT gd.id_ganado_datos as id, gd_obtenidos.pasos, gd.* " +
+    @Query(value = "SELECT distinct(gd.id_ganado), gd.id_ganado_datos as id, gd_obtenidos.pasos, gd.* " +
                 "FROM ganado_datos gd " +
                 "INNER JOIN (SELECT gd2.id_ganado, COUNT(gd2.id_ganado) as pasos " +
                             "FROM ganado_datos gd2 INNER JOIN ganado g ON gd2.id_ganado=g.id_ganado " +
@@ -29,7 +29,7 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
                             "INNER JOIN tambos t ON t.id_tambo=g.id_tambo INNER JOIN empresas e ON t.id_empresa=e.id_empresa " +
                             "WHERE e.id_empresa=:id_empresa AND t.id_tambo=:id_tambo AND g_d.temperatura is not null " +
                             "GROUP BY g_d.id_ganado,g_d.temperatura) gd_temperatura " +
-            "ON gd_temperatura.id_ganado=gd.id_ganado", nativeQuery = true)
+            "ON gd_temperatura.id_ganado=gd.id_ganado ORDER BY gd.id_ganado", nativeQuery = true)
     List<GanadoDatos> findByPasosInRangeFechas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,
                                          @Param("fecha_desde")Date fechaDesde,@Param("fecha_hasta")Date fechaHasta);
 
