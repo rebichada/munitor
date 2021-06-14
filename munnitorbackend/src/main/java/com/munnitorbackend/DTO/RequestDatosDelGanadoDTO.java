@@ -8,17 +8,17 @@ public class RequestDatosDelGanadoDTO implements Serializable {
     private Long id;
     private Long idGanado;
     private Double temperatura;
-    private boolean movimiento;
+    private int pasos;
 
     public RequestDatosDelGanadoDTO(){
         super();
     }
 
-    public RequestDatosDelGanadoDTO(Long id,Long idGanado, Double temperatura, boolean movimiento) {
+    public RequestDatosDelGanadoDTO(Long id,Long idGanado, Double temperatura, int pasos) {
         this.id=id;
         this.idGanado = idGanado;
         this.temperatura = temperatura;
-        this.movimiento=movimiento;
+        this.pasos=pasos;
     }
 
     public Long getId() {
@@ -29,12 +29,12 @@ public class RequestDatosDelGanadoDTO implements Serializable {
         this.id = id;
     }
 
-    public boolean isMovimiento() {
-        return movimiento;
+    public int getPasos() {
+        return pasos;
     }
 
-    public void setMovimiento(boolean movimiento) {
-        this.movimiento = movimiento;
+    public void setPasos(int pasos) {
+        this.pasos = pasos;
     }
 
     public Long getIdGanado() {

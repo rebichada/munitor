@@ -14,8 +14,9 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
     //----------------------------------------------------------LISTA DE GANADOS----------------------------------------------------------
 
     //obtener las vacas que dieron mas o igual de x cantidad de pasos
-    @Query(value = "SELECT gd FROM ganado_datos gd " +
-                "INNER JOIN (SELECT gd2.id_ganado, COUNT(gd2.id_ganado) " +
+    @Query(value = "SELECT gd.id_ganado_datos as id, gd_obtenidos.pasos, gd.* " +
+                "FROM ganado_datos gd " +
+                "INNER JOIN (SELECT gd2.id_ganado, COUNT(gd2.id_ganado) as pasos " +
                             "FROM ganado_datos gd2 INNER JOIN ganado g ON gd2.id_ganado=g.id_ganado " +
                             "INNER JOIN tambos t ON g.id_tambo=t.id_tambo " +
                             "INNER JOIN empresas e ON e.id_empresa=t.id_empresa " +
