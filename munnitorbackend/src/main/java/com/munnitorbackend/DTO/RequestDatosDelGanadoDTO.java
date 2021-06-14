@@ -1,12 +1,11 @@
 package com.munnitorbackend.DTO;
 
-import javax.persistence.Column;
 import java.io.Serializable;
-import java.util.Date;
 
 public class RequestDatosDelGanadoDTO implements Serializable {
     private Long id;
     private Long idGanado;
+    private String cuig;
     private Double temperatura;
     private int pasos;
 
@@ -14,11 +13,20 @@ public class RequestDatosDelGanadoDTO implements Serializable {
         super();
     }
 
-    public RequestDatosDelGanadoDTO(Long id,Long idGanado, Double temperatura, int pasos) {
+    public RequestDatosDelGanadoDTO(Long id, Long idGanado, String cuig, Double temperatura, int pasos) {
         this.id=id;
         this.idGanado = idGanado;
+        this.cuig = cuig;
         this.temperatura = temperatura;
         this.pasos=pasos;
+    }
+
+    public String getCuig() {
+        return cuig;
+    }
+
+    public void setCuig(String cuig) {
+        this.cuig = cuig;
     }
 
     public Long getId() {

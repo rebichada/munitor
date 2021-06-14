@@ -87,9 +87,18 @@ public class GanadoController {
                     .map(ganadoDatos1 -> modelMapper.map(ganadoDatos1, RequestDatosDelGanadoDTO.class))
                     .collect(Collectors.toList());
 
+            for (GanadoDatos gd:ganadoDatos) {
+                for (RequestDatosDelGanadoDTO requestDatosDelGanadoDTO:resultadoGanado) {
+                    if (gd.getId()==requestDatosDelGanadoDTO.getId()){
+                        requestDatosDelGanadoDTO.setCuig(gd.getGanado().getCaravana().getCUIG());
+                    }
+                }
+
+            }
+
             return ResponseEntity.ok(resultadoGanado);
         }catch(Exception e){
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
