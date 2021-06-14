@@ -27,6 +27,9 @@ public class VacunaServiceImplements implements IVacunaService{
     @Autowired
     private VacunaEmpresaRepo vacunaEmpresaRepo;
 
+    @Autowired
+    private GanadoVacunaRepo ganadoVacunaRepo;
+
     @Override
     public Vacuna obtenerVacunaDentroDeEmpresa(Long idEmpresa, Long idVacuna) throws Exception {
         try{
@@ -133,8 +136,6 @@ public class VacunaServiceImplements implements IVacunaService{
         try{
             if (!ganadoRepo.existsById(idGanado)) throw new Exception("No existe este codigo ("+ idGanado +") de Ganado.");
             return vacunaRepo.findByIdGanado(idGanado);
-        }catch (EmptyResultDataAccessException emptyResultDataAccessException){
-            throw new Exception("No existen vacunas aplicadas para este codigo ("+ idGanado +") de Ganado.");
         }
         catch (Exception e){
             throw new Exception("Ocurrio un error en el servicio de la vacuna. Error: "+ e.getMessage());
@@ -153,12 +154,10 @@ public class VacunaServiceImplements implements IVacunaService{
     }
 
     @Override
-    public List<Vacuna> obtenerVacunasEnUnRangoDeFechasParaUnGanaado(Long idGanado,Date fechaDesde, Date fechaHasta) throws Exception {
+    public List<Vacuna> obtenerVacunasEnUnRangoDeFechasParaUnGanado(Long idGanado,Date fechaDesde, Date fechaHasta) throws Exception {
         try{
             if (!ganadoRepo.existsById(idGanado)) throw new Exception("No existe este codigo ("+ idGanado +") de Ganado.");
             return vacunaRepo.findByIdGanadoBetweenFecha(idGanado,fechaDesde,fechaHasta);
-        }catch (EmptyResultDataAccessException emptyResultDataAccessException){
-            throw new Exception("No existen vacunas aplicadas al ganado para estas fechas.");
         }
         catch (Exception e){
             throw new Exception("Ocurrio un error en el servicio de la vacuna. Error: "+ e.getMessage());
@@ -166,26 +165,42 @@ public class VacunaServiceImplements implements IVacunaService{
     }
 
     @Override
-    public List<Vacuna> obtenerVacunasEnUnaFechaParaUnGanaado(Long idGanado,Date fecha) throws Exception {
+    public List<Vacuna> obtenerVacunasEnUnaFechaParaUnGanado(Long idGanado,Date fecha) throws Exception {
         try{
             if (!ganadoRepo.existsById(idGanado)) throw new Exception("No existe este codigo ("+ idGanado +") de Ganado.");
             return vacunaRepo.findByIdGanadoAndFecha(idGanado,fecha);
-        }catch (EmptyResultDataAccessException emptyResultDataAccessException){
-            throw new Exception("No existen vacunas aplicadas al ganado para esta fecha.");
         }
         catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicio de la vacuna. Error: "+ e.getMessage());
+        }
+    }
+
+    @Override
+    public void eliminarVacunasParaUnGanado(Long idVacuna, Long idGanado) throws Exception {
+        try{
+            if (!ganadoRepo.existsById(idGanado)) throw new Exception("No existe este codigo ("+ idGanado +") de Ganado.");
+            if(!this.existsById(idVacuna)) throw new Exception("No existe este codigo de vacuna:" + idVacuna);
+            ganadoVacunaRepo.deleteByIdEmpresaAndIdVacuna(idVacuna,idGanado);
+        }catch (Exception e){
             throw new Exception("Ocurrio un error en el servicio de la vacuna. Error: "+ e.getMessage());
         }
     }
 
     @Override
     public List<Vacuna> listarTodasLasVacunasDelSistema() {
-        return null;
+        return vacunaRepo.findAll();
     }
 
+    //elimino todas las vacunas en cascade sin importar si estan en la tabla ganado_vacuna o ganado_empresa
+    //(Esto solo lo deberia hacer el administrador)
     @Override
     public void eliminarVacunaDelSistema(Long idVacuna) throws Exception {
-
+        try{
+            if(!this.existsById(idVacuna)) throw new Exception("No existe este codigo de vacuna:" + idVacuna);
+            vacunaRepo.deleteById(idVacuna);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicio de la vacuna. Error: "+ e.getMessage());
+        }
     }
 
     @Override
@@ -203,11 +218,11 @@ public class VacunaServiceImplements implements IVacunaService{
     }
 
     @Override
-    public void eliminarVacunaDentroDeEmpresa(Long idEmpresa, Long IdVacuna) throws Exception {
+    public void eliminarVacunaDentroDeEmpresa(Long idEmpresa, Long idVacuna) throws Exception {
         try{
             if (!empresaRepo.existsById(idEmpresa)) throw new Exception("No existe la empresa con este codigo: "+ idEmpresa);
-            vacunaRepo.deleteById(IdVacuna);
-            vacunaEmpresaRepo.deleteById(idEmpresa);
+            if(!this.existsById(idVacuna)) throw new Exception("No existe este codigo de vacuna:" + idVacuna);
+            vacunaEmpresaRepo.deleteByIdEmpresaAndIdVacuna(idEmpresa,idVacuna);
         }catch (Exception e){
             throw new Exception("Ocurrio un error en el servicio de la vacuna. Error: "+ e.getMessage());
         }

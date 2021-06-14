@@ -22,15 +22,14 @@ public class GanadoDatosServiceImplements implements IGanadoDatosService{
         Date fechaHasta;
         try{
             Calendar cal = Calendar.getInstance();
-            fechaDesde=cal.getTime();
-            //le resto un dia
-            cal.set(Calendar.DATE, cal.get(Calendar.DATE)-1);
             fechaHasta=cal.getTime();
-            ganadoDatos=ganadoDatosRepo.findByPasosInRangeFechas(idTambo,idEmpresa,fechaDesde,fechaHasta);
+            //le resto un dia
+            cal.set(Calendar.DATE, cal.get(Calendar.DATE)-8);
+            fechaDesde=cal.getTime();
+            return ganadoDatosRepo.findByPasosInRangeFechas(idTambo,idEmpresa,fechaDesde,fechaHasta);
         }catch (Exception e){
             throw new Exception((e.getMessage()));
         }
-        return ganadoDatos;
      }
 
     @Override

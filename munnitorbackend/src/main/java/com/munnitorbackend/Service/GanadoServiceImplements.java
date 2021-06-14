@@ -2,6 +2,7 @@ package com.munnitorbackend.Service;
 
 import com.munnitorbackend.Model.Ganado;
 import com.munnitorbackend.Model.GanadoDatos;
+import com.munnitorbackend.Repository.EmpresaRepo;
 import com.munnitorbackend.Repository.GanadoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class GanadoServiceImplements implements IGanadoService {
 
     @Autowired
     private GanadoRepo ganadoRepo;
+
+    @Autowired
+    private EmpresaRepo empresaRepo;
 
     @Override
     public Ganado obtenerGanadoPorIdCaravana(Long idCaravana) throws Exception{
@@ -335,13 +339,11 @@ public class GanadoServiceImplements implements IGanadoService {
 
     @Override
     public List<Ganado> listarUltimaTemperaturaCantPasosEnUnDia(Long idTambo, Long idEmpresa) throws Exception {
-        List<Ganado> ganados;
         try{
-            ganados=ganadoRepo.findByIdEqualsAndAndCaravanaAndGanadoDatos(idEmpresa, idTambo);
+            return ganadoRepo.findByIdEqualsAndAndCaravanaAndGanadoDatos(idTambo, idEmpresa);
         }catch (Exception e){
-            throw new Exception(e.getMessage());
+            throw new Exception("Algo ocurrio mal en el servicio de Ganado. Error: "  +e.getMessage());
         }
-        return ganados;
     }
 
 }

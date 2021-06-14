@@ -32,6 +32,12 @@ public class GanadoController {
     private IGanadoDatosService ganadoDatosService;
 
     @Autowired
+    private IEmpresaService empresaService;
+
+    @Autowired
+    private ITamboService tamboService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     /**POST PARA ALMACENAR LOS DATOS DEL SENSOR, EL JSON DEBE SER:
@@ -66,24 +72,24 @@ public class GanadoController {
         }
     }
     @GetMapping("/principal")
-    public ResponseEntity<ArrayList<RequestDatosDelGanadoDTO>> getGanadoMasTemperaturaMasCantPasos(@RequestParam(value = "idTambo") String idTambo, @RequestParam(value = "idEmpresa") String idEmpresa){
-        ArrayList<Ganado> ganadoObtenidos;
-        ArrayList<GanadoDatos>ganadoDatos;
-        ArrayList<RequestDatosDelGanadoDTO> resultadoGanado;
+    public ResponseEntity<List<?>> getGanadoMasTemperaturaMasCantPasos(@RequestParam(value = "idTambo") String idTambo, @RequestParam(value = "idEmpresa") String idEmpresa){
+        List<GanadoDatos>ganadoDatos;
+        List<RequestDatosDelGanadoDTO> resultadoGanado;
         try {
             //obtengo toodos los ganados de esta empresa y tambo con su ultima temperatura en su ultimo registro
-            ganadoObtenidos =(ArrayList<Ganado>) ganadoService.listarUltimaTemperaturaCantPasosEnUnDia(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
+            if(!empresaService.existsById(Long.parseLong(idEmpresa))) return new ResponseEntity("Esta empresa con este codigo: " + idEmpresa + " no se fue encontrado. "  ,HttpStatus.OK);
+            if(!tamboService.existsById(Long.parseLong(idTambo))) return new ResponseEntity("Esta Tambo con codigo: " + idTambo + " no fue encontrado.",HttpStatus.OK);
             //obtengo todos los GanadoDatos con la cantidad de pasos en las ultimas 24 hs
-            ganadoDatos=(ArrayList<GanadoDatos>) ganadoDatosService.cantidadDePasosInRangeFecha(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
+            ganadoDatos= ganadoDatosService.cantidadDePasosInRangeFecha(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
 
             //filtro por el object Ganado y mapeo para solo enviar los datos necesarios
-            resultadoGanado=(ArrayList<RequestDatosDelGanadoDTO>) ganadoDatos.stream().filter(ganados -> ganadoObtenidos.contains(ganados.getGanado()))
+            resultadoGanado= ganadoDatos.stream()
                     .map(ganadoDatos1 -> modelMapper.map(ganadoDatos1, RequestDatosDelGanadoDTO.class))
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(resultadoGanado);
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }

@@ -24,8 +24,10 @@ public interface IVacunaService {
     //repo GanadoVacuna
     List<Vacuna> obtenerVacunasAplicadasAlGanado(Long idGanado)throws Exception;
     boolean verificarVacunaAplicadaAlGanado(Long idVacuna,Long idGanado)throws Exception;
-    List<Vacuna> obtenerVacunasEnUnRangoDeFechasParaUnGanaado(Long idGanado,Date fechaDesde, Date FechaHasta)throws Exception;
-    List<Vacuna> obtenerVacunasEnUnaFechaParaUnGanaado(Long idGanado,Date fecha)throws Exception;
+    void eliminarVacunasParaUnGanado(Long idVacuna,Long idGanado) throws Exception;
+    List<Vacuna> obtenerVacunasEnUnRangoDeFechasParaUnGanado(Long idGanado,Date fechaDesde, Date FechaHasta)throws Exception;
+    List<Vacuna> obtenerVacunasEnUnaFechaParaUnGanado(Long idGanado,Date fecha)throws Exception;
+
 
     //repoVacuna
     Vacuna guardar(Vacuna v) throws Exception;

@@ -19,11 +19,12 @@ public interface GanadoRepo extends JpaRepository<Ganado,Long> {
     @Query("SELECT g FROM Ganado g INNER JOIN Empresa e ON e.id=g.tambo.empresa.id WHERE e.id=:id_empresa")
     List<Ganado> findByEmpresa(@Param("id_empresa") Long id_empresa);
     //generar un array de con lo siguientes datos: ganado y idcaravana, pasos en las ultimas 24 y la ultima temperatura registrada
-    @Query(value = "SELECT g FROM ganado g INNER JOIN caravanas c ON g.id_caravana=c.id_caravana " +
-                   "INNER JOIN " +
-                   "(SELECT g_d.id_ganado, MAX(g_d.fecha_de_resigro) FROM ganado_datos g_d WHERE id_ganado=:ig_ganado GROUP BY g_d.id_ganado) gd ON g.id=gd.ganado.id " +
-                   "INNER JOIN tambos t ON t.id_tambo=g.id_tambo INNER JOIN empresas e ON t.id_empresa=e.id_empresa " +
-                   "WHERE e.id_empresa=:id_empresa AND t.id_tambo=:id_tambo order by c.id_caravana",nativeQuery = true)
+    @Query(value = "SELECT g1 FROM ganado g1 INNER JOIN " +
+                   "(SELECT g_d.id_ganado, MAX(g_d.fecha_de_registro) FROM ganado_datos g_d " +
+                        "INNER JOIN ganado g ON g_d.id_ganado=g.id_ganado " +
+                        "INNER JOIN tambos t ON t.id_tambo=g.id_tambo INNER JOIN empresas e ON t.id_empresa=e.id_empresa " +
+                    "WHERE e.id_empresa=:id_empresa AND t.id_tambo=:id_tambo AND g_d.temperatura is not null " +
+            "GROUP BY g_d.id_ganado,g_d.temperatura) gd ON gd.id_ganado=g1.id_ganado ",nativeQuery = true)
     List<Ganado>findByIdEqualsAndAndCaravanaAndGanadoDatos(@Param("id_tambo") Long id_tambo, @Param("id_empresa")Long id_empresa);
 
     //----------------------------------------------------------LISTA DE GANADOS----------------------------------------------------------

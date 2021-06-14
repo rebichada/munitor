@@ -14,11 +14,21 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
     //----------------------------------------------------------LISTA DE GANADOS----------------------------------------------------------
 
     //obtener las vacas que dieron mas o igual de x cantidad de pasos
-    @Query(value = "SELECT gd FROM ganados g INNER JOIN tambos t ON g.id_tambo=t.id_tambo " +
-            "INNER JOIN empresas e ON e.id_empresa=t.id_empresa " +
-                "INNER JOIN (SELECT id_ganado, COUNT(cantPasos) FROM ganado_datos " +
-                "WHERE fecha_de_registro between :fecha_desde and :fecha_hasta group by id_ganado) gd ON gd.id_ganado=g.id_ganado " +
-            "WHERE e.id_empresa=:id_empresa AND t.id_tambo =:id_tambo ", nativeQuery = true)
+    @Query(value = "SELECT gd FROM ganado_datos gd " +
+                "INNER JOIN (SELECT gd2.id_ganado, COUNT(gd2.id_ganado) " +
+                            "FROM ganado_datos gd2 INNER JOIN ganado g ON gd2.id_ganado=g.id_ganado " +
+                            "INNER JOIN tambos t ON g.id_tambo=t.id_tambo " +
+                            "INNER JOIN empresas e ON e.id_empresa=t.id_empresa " +
+                            "WHERE e.id_empresa=:id_empresa AND t.id_tambo =:id_tambo " +
+                            "AND gd2.bool_movimiento=true " +
+            "AND gd2.fecha_de_registro between :fecha_desde and :fecha_hasta group by gd2.id_ganado) " +
+                "gd_obtenidos ON gd_obtenidos.id_ganado=gd.id_ganado INNER JOIN " +
+                            "(SELECT g_d.id_ganado, MAX(g_d.fecha_de_registro) FROM ganado_datos g_d " +
+                            "INNER JOIN ganado g ON g_d.id_ganado=g.id_ganado " +
+                            "INNER JOIN tambos t ON t.id_tambo=g.id_tambo INNER JOIN empresas e ON t.id_empresa=e.id_empresa " +
+                            "WHERE e.id_empresa=:id_empresa AND t.id_tambo=:id_tambo AND g_d.temperatura is not null " +
+                            "GROUP BY g_d.id_ganado,g_d.temperatura) gd_temperatura " +
+            "ON gd_temperatura.id_ganado=gd.id_ganado", nativeQuery = true)
     List<GanadoDatos> findByPasosInRangeFechas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,
                                          @Param("fecha_desde")Date fechaDesde,@Param("fecha_hasta")Date fechaHasta);
 
