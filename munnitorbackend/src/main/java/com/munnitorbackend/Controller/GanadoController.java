@@ -70,13 +70,16 @@ public class GanadoController {
     @PostMapping ("/datosSensor")
     public ResponseEntity<?> guardarDatosGanado(@RequestBody RequestDatosDelGanadoDTO datosDelGanado){
         try{
+            if (!ganadoService.existById(datosDelGanado.getIdGanado())) new ResponseEntity<>("No existe este codigo de ganado: " + datosDelGanado.getIdGanado(), HttpStatus.INTERNAL_SERVER_ERROR);
             GanadoDatos datos= modelMapper.map(datosDelGanado, GanadoDatos.class);
+
+
             datos.setFechaDeRegistro(new Date());
-            GanadoDatos ganadoDatos = ganadoDatosService.guardar(datos);
+            datos = ganadoDatosService.guardar(datos);
             if (datos.getTemperatura() > 40 || datos.getTemperatura() < 35) {
                 //crear notificacion;
             }
-            return new ResponseEntity("Datos guardados: " + ganadoDatos,HttpStatus.CREATED);
+            return new ResponseEntity(datos,HttpStatus.CREATED);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

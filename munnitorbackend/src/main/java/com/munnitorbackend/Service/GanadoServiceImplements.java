@@ -346,4 +346,9 @@ public class GanadoServiceImplements implements IGanadoService {
         }
     }
 
+    @Override
+    public boolean existById(Long idGanado) {
+        return ganadoRepo.existsById(idGanado);
+    }
+
 }

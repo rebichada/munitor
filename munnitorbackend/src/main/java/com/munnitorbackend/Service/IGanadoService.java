@@ -43,4 +43,7 @@ public interface IGanadoService {
     List<Ganado> listarPorEmpresa(Long idEmpresa) throws Exception;
 
     List<Ganado> listarUltimaTemperaturaCantPasosEnUnDia(Long idTambo, Long idEmpresa) throws Exception;
+
+    boolean existById(Long idGanado);
+
 }

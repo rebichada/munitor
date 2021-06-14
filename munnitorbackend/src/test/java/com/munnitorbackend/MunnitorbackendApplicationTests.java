@@ -52,7 +52,6 @@ class MunnitorbackendApplicationTests {
 		//creo los usuarios
 
 
-
 		SimpleDateFormat dataFormat=  new SimpleDateFormat("dd-MM-yyyy");
 // el byte puede contener valores de -128 a 127
 		Usuario uPedro= new Usuario("pedro_zanchez@hotmail.com","admindEmpresa1","123",Byte.parseByte("3"),false);

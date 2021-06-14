@@ -6,11 +6,12 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name="ganado_datos")
-public class GanadoDatos {
+public class GanadoDatos implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,6 +80,18 @@ public class GanadoDatos {
         this.comio = comio;
         this.fechaDeRegistro = fechaDeRegistro;
         this.movimiento=movimiento;
+    }
+
+    public GanadoDatos(Long id, Ganado ganado, Double temperatura, int pasos, int cantidadComio, double peso, boolean comio, boolean movimiento, Date fechaDeRegistro) {
+        this.id = id;
+        this.ganado = ganado;
+        this.temperatura = temperatura;
+        this.pasos = pasos;
+        this.cantidadComio = cantidadComio;
+        this.peso = peso;
+        this.comio = comio;
+        this.movimiento = movimiento;
+        this.fechaDeRegistro = fechaDeRegistro;
     }
 
     public boolean isMovimiento() {

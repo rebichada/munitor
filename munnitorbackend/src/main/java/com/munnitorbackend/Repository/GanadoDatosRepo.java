@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
 
+    @Override
+    GanadoDatos save(GanadoDatos ganadoDatos);
+
     //----------------------------------------------------------LISTA DE GANADOS----------------------------------------------------------
 
     //obtener las vacas que dieron mas o igual de x cantidad de pasos
