@@ -118,6 +118,23 @@ public class GanadoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @PostMapping ("/datosGanado")
+    public ResponseEntity<GanadoDatos> guardarDatosGanadoPorUsuario(@RequestBody RequestDatosDelGanadoDTO datosDelGanado){
+        try{
+            GanadoDatos datos= modelMapper.map(datosDelGanado, GanadoDatos.class);
+            datos.setFechaDeRegistro(new Date());
+            GanadoDatos ganadoDatos = ganadoDatosService.guardar(datos);
+            if (datos.getTemperatura() > 40 || datos.getTemperatura() < 35){
+                return ResponseEntity.created(new URI("/notificarTemperatura/"+ ganadoDatos.getId())).body(ganadoDatos);
+            }else{
+                return ResponseEntity.created(new URI("/datosSensor")).body(ganadoDatos);
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
     @GetMapping("/principal")
     public ResponseEntity<List<?>> getGanadoMasTemperaturaMasCantPasos(@RequestParam(value = "idTambo") String idTambo, @RequestParam(value = "idEmpresa") String idEmpresa){
 
