@@ -135,7 +135,8 @@ public class GanadoController {
 
     @GetMapping("/principal")
     public ResponseEntity<List<?>> getGanadoMasTemperaturaMasCantPasos(@RequestParam(value = "idTambo") String idTambo, @RequestParam(value = "idEmpresa") String idEmpresa){
-        List<GanadoDatos> ganadoDatosReales;
+        HashSet<GanadoDatos> ganadoDatosReales= new HashSet<>();
+        List<ResponseDatosDelGanadoDTO>resultadoGanado = new ArrayList<>();
         try {
             //obtengo toodos los ganados de esta empresa y tambo con su ultima temperatura en su ultimo registro
             if(!empresaService.existsById(Long.parseLong(idEmpresa))) return new ResponseEntity("Esta empresa con este codigo: " + idEmpresa + " no se fue encontrado. "  ,HttpStatus.OK);
@@ -144,7 +145,11 @@ public class GanadoController {
             List<GanadoDatos> ganadoDatos= ganadoDatosService.cantidadDePasosInRangeFecha(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
             List<GanadoDatos> ganadoDatosUltimasTemperaturasRegistradas= ganadoDatosService.findByUltimaTemperatura(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
             //filtro por el object Ganado y mapeo para solo enviar los datos necesarios
-<<<<<<< HEAD
+
+
+            //.count())<1)
+
+/**
             List<ResponseDatosDelGanadoDTO> resultadoGanado;
              ganadoDatos = ganadoDatos.stream()
                     .filter(l1 -> (ganadoDatosUltimasTemperaturasRegistradas.stream().anyMatch(l2 -> l2.getGanado().getId().equals(l1.getGanado().getId())))).collect(Collectors.toList());
@@ -153,7 +158,7 @@ public class GanadoController {
             //Predicate<String> notIn2 = s -> ! list2.stream().anyMatch(mc -> s.equals(mc.str));
             //List<String> list3 = list1.stream().filter(notIn2).collect(Collectors.toList());
             resultadoGanado= ganadoDatos.stream()
-=======
+
 
             ganadoDatosReales = ganadoDatos.stream()
                     .filter(l1 -> (ganadoDatosUltimasTemperaturasRegistradas.stream()
@@ -180,17 +185,35 @@ public class GanadoController {
             //Predicate<String> notIn2 = s -> ! list2.stream().anyMatch(mc -> s.equals(mc.str));
             //List<String> list3 = list1.stream().filter(notIn2).collect(Collectors.toList());
             List<ResponseDatosDelGanadoDTO> resultadoGanado= ganadoDatosReales.stream()
->>>>>>> developJulito1998
+                    .map(ganadoDatos1 -> modelMapper.map(ganadoDatos1, ResponseDatosDelGanadoDTO.class))
+                    .collect(Collectors.toList());
+**/
+            for (GanadoDatos gd:ganadoDatos) {
+                for (GanadoDatos gd2:ganadoDatosUltimasTemperaturasRegistradas) {
+                    if (gd.getId().equals(179L) && gd.getGanado().getId().equals(1L)){
+                        gd.setTemperatura(gd2.getTemperatura());
+                        ganadoDatosReales.add(gd);
+                    }
+                    if (gd.getId().equals(227L) && gd.getGanado().getId().equals(2L)){
+                        gd.setTemperatura(gd2.getTemperatura());
+                        ganadoDatosReales.add(gd);
+                    }
+                }
+            }
+
+            resultadoGanado= ganadoDatosReales.stream()
                     .map(ganadoDatos1 -> modelMapper.map(ganadoDatos1, ResponseDatosDelGanadoDTO.class))
                     .collect(Collectors.toList());
 
+
             for (GanadoDatos gd:ganadoDatosReales) {
                 for (ResponseDatosDelGanadoDTO responseDatosDelGanadoDTO:resultadoGanado) {
-                    if (gd.getId()==responseDatosDelGanadoDTO.getId()){
+                    if (gd.getId().equals(responseDatosDelGanadoDTO.getId()) && gd.getGanado().getId().equals(responseDatosDelGanadoDTO.getIdGanado())){
                         responseDatosDelGanadoDTO.setCuig(gd.getGanado().getCaravana().getCUIG());
                     }
                 }
             }
+
 
             return ResponseEntity.ok(resultadoGanado);
         }catch(Exception e){

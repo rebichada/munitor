@@ -18,7 +18,7 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
     //----------------------------------------------------------LISTA DE GANADOS----------------------------------------------------------
 
     //obtener las vacas que dieron mas o igual de x cantidad de pasos
-    @Query(value = "SELECT distinct(gd.id_ganado), gd.id_ganado_datos as id, gd_obtenidos.pasos, gd.* " +
+    @Query(value = "SELECT distinct(gd.id_ganado), gd.id_ganado_datos as id, gd_obtenidos.pasos as cantidad_de_pasos, gd.* " +
                 "FROM ganado_datos gd " +
                 "INNER JOIN (SELECT gd2.id_ganado, COUNT(gd2.id_ganado) as pasos " +
                             "FROM ganado_datos gd2 INNER JOIN ganado g ON gd2.id_ganado=g.id_ganado " +
@@ -32,7 +32,7 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
     List<GanadoDatos> findByPasosInRangeFechas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,
                                          @Param("fecha_desde")Date fechaDesde,@Param("fecha_hasta")Date fechaHasta);
 
-<<<<<<< HEAD
+/**<<<<<<< HEAD
     @Query(value = "SELECT distinct(gd.id_ganado), gd.id_ganado_datos as id, gd.* " +
                     "FROM ganado_datos gd WHERE gd.id_ganado IN " +
                         "(SELECT g_d.id_ganado FROM ganado_datos g_d " +
@@ -42,7 +42,7 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
                         "GROUP BY g_d.id_ganado " +
                             "having MAX(g_d.fecha_de_registro)>:fecha) ORDER BY gd.id_ganado", nativeQuery = true)
     List<GanadoDatos> findByUltimaTemperatura(@Param("id_tambo") Long idTambo, @Param("id_empresa")Long id_empresa, @Param("fecha")Date fecha);
-=======
+=======**/
     @Query(value = "SELECT distinct (gd.id_ganado), gd.id_ganado_datos as id, gd.* " +
                     "FROM ganado_datos gd WHERE gd.id_ganado_datos IN " +
                         "(SELECT g_d.id_ganado_datos FROM ganado_datos g_d " +
@@ -52,7 +52,7 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
                         "GROUP BY g_d.id_ganado_datos " +
                             "having MAX(g_d.fecha_de_registro)>:fecha) order by gd.id_ganado", nativeQuery = true)
     List<GanadoDatos> findByUltimaTemperatura(@Param("id_tambo") Long idTambo, @Param("id_empresa")Long id_empresa,@Param("fecha")Date fecha);
->>>>>>> developJulito1998
+
 
     //obtener la temperatura de vacas entre ciertos grados
     @Query("SELECT gd FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +

@@ -104,13 +104,9 @@ public class VacunaController {
         }
     }
 
-<<<<<<< HEAD
-    @GetMapping("/listar/ganado/{idGanado}")
-    public ResponseEntity<List<?>> obtenerVacunasAplicadasAlGanado(@PathVariable String idGanado){
-=======
+
     @GetMapping("/ganado_vacuna/{idGanado}")
     public ResponseEntity<?> obtenerVacunasAplicadasAlGanado(@PathVariable String idGanado){
->>>>>>> developJulito1998
         try{
             return new ResponseEntity(vacunaService.obtenerVacunasAplicadasAlGanado(Long.parseLong(idGanado)),HttpStatus.OK);
         }catch (Exception e){
