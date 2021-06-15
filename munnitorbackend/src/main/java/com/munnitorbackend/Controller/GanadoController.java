@@ -137,7 +137,7 @@ public class GanadoController {
 
     @GetMapping("/principal")
     public ResponseEntity<List<?>> getGanadoMasTemperaturaMasCantPasos(@RequestParam(value = "idTambo") String idTambo, @RequestParam(value = "idEmpresa") String idEmpresa){
-
+        List<GanadoDatos> ganadoDatosReales;
         try {
             //obtengo toodos los ganados de esta empresa y tambo con su ultima temperatura en su ultimo registro
             if(!empresaService.existsById(Long.parseLong(idEmpresa))) return new ResponseEntity("Esta empresa con este codigo: " + idEmpresa + " no se fue encontrado. "  ,HttpStatus.OK);
@@ -147,18 +147,35 @@ public class GanadoController {
             List<GanadoDatos> ganadoDatosUltimasTemperaturasRegistradas= ganadoDatosService.findByUltimaTemperatura(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
             //filtro por el object Ganado y mapeo para solo enviar los datos necesarios
 
-             ganadoDatos = ganadoDatos.stream()
+            ganadoDatosReales = ganadoDatos.stream()
                     .filter(l1 -> (ganadoDatosUltimasTemperaturasRegistradas.stream()
-                            .filter(l2 -> l1.getGanado().equals(l1.getGanado()))
+                            .filter(l2 -> l1.getGanado().getId().equals(l1.getGanado().getId()))
                             .count())<1)
                     .collect(Collectors.toList());
+
+            ganadoDatosReales= ganadoDatosReales.stream().map(l1 -> {
+                for (GanadoDatos ganadoDatos1:
+                        ganadoDatosUltimasTemperaturasRegistradas) {
+                    l1.setTemperatura(ganadoDatos1.getTemperatura());
+                }
+                return l1;
+            }).collect(Collectors.toList());
+
+            ganadoDatosReales= ganadoDatosReales.stream().map(l1 -> {
+                for (GanadoDatos ganadoDatos2:
+                        ganadoDatos) {
+                    l1.setPasos(ganadoDatos2.getPasos());
+                }
+                return l1;
+            }).collect(Collectors.toList());
+
             //Predicate<String> notIn2 = s -> ! list2.stream().anyMatch(mc -> s.equals(mc.str));
             //List<String> list3 = list1.stream().filter(notIn2).collect(Collectors.toList());
-            List<ResponseDatosDelGanadoDTO> resultadoGanado= ganadoDatos.stream()
+            List<ResponseDatosDelGanadoDTO> resultadoGanado= ganadoDatosReales.stream()
                     .map(ganadoDatos1 -> modelMapper.map(ganadoDatos1, ResponseDatosDelGanadoDTO.class))
                     .collect(Collectors.toList());
 
-            for (GanadoDatos gd:ganadoDatos) {
+            for (GanadoDatos gd:ganadoDatosReales) {
                 for (ResponseDatosDelGanadoDTO responseDatosDelGanadoDTO:resultadoGanado) {
                     if (gd.getId()==responseDatosDelGanadoDTO.getId()){
                         responseDatosDelGanadoDTO.setCuig(gd.getGanado().getCaravana().getCUIG());
