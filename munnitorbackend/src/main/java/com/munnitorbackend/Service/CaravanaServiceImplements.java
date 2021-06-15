@@ -17,56 +17,103 @@ public class CaravanaServiceImplements implements ICaravanaService{
 
     @Override
     public Caravana newCaravana(Caravana caravana) throws Exception {
-        return caravanaRepo.save(caravana);
-    }
-
-    @Override
-    public List<Caravana> obtenerCaravanasTambo(Long idEmpresa, Long idTambo) {
-        return caravanaRepo.findByEmpresaEqualsAndTamboEquals(idEmpresa,idTambo) ;
-    }
-
-    @Override
-    public List<Caravana> obtenerCaravanasEmpresa(Long idEmpresa) {
-        return caravanaRepo.findByEmpresaEquals(idEmpresa);
-    }
-
-
-    @Override
-    public List<Caravana> obtenerCaravanasSinAsignarTambo(Long idEmpresa, Long idTambo) {
-        return caravanaRepo.findByEmpresaEqualsAndTamboEqualsAndGanadoIsNull(idEmpresa,idTambo);
+        try{
+            return caravanaRepo.save(caravana);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicio de las Caravanas.");
+        }
 
     }
 
     @Override
-    public List<Caravana> obtenerCaravanasSinAsignarEmpresa(Long idEmpresa) {
-        return caravanaRepo.findByEmpresaEqualsAndGanadoIsNull(idEmpresa);
+    public List<Caravana> obtenerCaravanasTambo(Long idEmpresa, Long idTambo) throws Exception {
+        try{
+            return caravanaRepo.findByEmpresaEqualsAndTamboEquals(idEmpresa,idTambo);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicios de las caravanas. Error :" + e.getMessage());
+        }
     }
 
     @Override
-    public List<Caravana> obtenerCaravanasAsignadasTambo(Long idEmpresa, Long idTambo) {
-        return caravanaRepo.findByEmpresaEqualsAndTamboEqualsAndGanadoIsNotNull(idEmpresa,idTambo);
+    public List<Caravana> obtenerCaravanasEmpresa(Long idEmpresa) throws Exception {
+        try{
+            return caravanaRepo.findByEmpresaEquals(idEmpresa);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicios de las caravanas. Error :" + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Caravana> obtenerCaravanasSinAsignarTambo(Long idEmpresa, Long idTambo) throws Exception {
+        try{
+            return caravanaRepo.findByEmpresaEqualsAndTamboEqualsAndGanadoIsNull(idEmpresa,idTambo);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicios de las caravanas. Error :" + e.getMessage());
+        }
 
     }
 
     @Override
-    public List<Caravana> obtenerCaravanasAsignadasEmpresa(Long idEmpresa) {
-        return caravanaRepo.findByEmpresaEqualsAndGanadoIsNotNull(idEmpresa);
+    public List<Caravana> obtenerCaravanasSinAsignarEmpresa(Long idEmpresa) throws Exception {
+        try{
+            return caravanaRepo.findByEmpresaEqualsAndGanadoIsNull(idEmpresa);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicios de las caravanas. Error :" + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Caravana> obtenerCaravanasAsignadasTambo(Long idEmpresa, Long idTambo)  throws Exception{
+        try{
+            return caravanaRepo.findByEmpresaEqualsAndTamboEqualsAndGanadoIsNotNull(idEmpresa,idTambo);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicios de las caravanas. Error :" + e.getMessage());
+        }
 
     }
 
     @Override
-    public Caravana findById(Long idCaravana) {
-        return caravanaRepo.findById(idCaravana).get();
+    public List<Caravana> obtenerCaravanasAsignadasEmpresa(Long idEmpresa) throws Exception {
+        try{
+            return caravanaRepo.findByEmpresaEqualsAndGanadoIsNotNull(idEmpresa);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicios de las caravanas. Error :" + e.getMessage());
+        }
+
+
+    }
+
+    @Override
+    public Caravana findById(Long idCaravana) throws Exception{
+        try{
+            return caravanaRepo.findById(idCaravana).get();
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicios de las caravanas. Error :" + e.getMessage());
+        }
     }
 
     @Override
     public void deleteCaravana(Long idCaravana) throws Exception {
-         caravanaRepo.deleteById(idCaravana);
+        try{
+            caravanaRepo.deleteById(idCaravana);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicios de las caravanas. Error :" + e.getMessage());
+        }
     }
 
     @Override
     public Caravana guardar(Caravana caravana) throws Exception {
-        return caravanaRepo.save(caravana);
+        try{
+            return caravanaRepo.save(caravana);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicios de las caravanas. Error :" + e.getMessage());
+        }
+
+    }
+
+    @Override
+    public boolean existsBtId(Long idCaravana) {
+        return caravanaRepo.existsById(idCaravana);
     }
 
 

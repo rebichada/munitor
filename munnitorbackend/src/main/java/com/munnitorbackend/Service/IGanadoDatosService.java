@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface IGanadoDatosService {
-
+    List<GanadoDatos>findByUltimaTemperatura(Long idTambo,Long idEmpresa) throws Exception;
     List<GanadoDatos>cantidadDePasosInRangeFecha(Long idTambo,Long idEmpresa) throws Exception;
     List<GanadoDatos> filtrarPorRangoTemperatura(Long idTambo, Long idEmpresa, Double temp1, Double temp2, Date fechaDesde, Date fechaHasta)throws Exception;
     List<GanadoDatos> filtrarPorCantPasosMenorIgual(Long idTambo, Long idEmpresa,Double cantPasos,Date fechaDesde, Date fechaHasta)throws Exception;

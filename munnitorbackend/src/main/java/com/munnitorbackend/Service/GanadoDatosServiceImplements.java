@@ -16,6 +16,15 @@ public class GanadoDatosServiceImplements implements IGanadoDatosService{
     private GanadoDatosRepo ganadoDatosRepo;
 
     @Override
+    public List<GanadoDatos> findByUltimaTemperatura(Long idTambo, Long idEmpresa) throws Exception {
+        try{
+            return ganadoDatosRepo.findByUltimaTemperatura(idTambo,idEmpresa);
+        }catch (Exception e){
+            throw new Exception("Ocurrio un error en el servicio de Datos del Ganado.");
+        }
+    }
+
+    @Override
     public List<GanadoDatos> cantidadDePasosInRangeFecha(Long idTambo, Long idEmpresa) throws Exception {
         List<GanadoDatos>ganadoDatos;
         Date fechaDesde;

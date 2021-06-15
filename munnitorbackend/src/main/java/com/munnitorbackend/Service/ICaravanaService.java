@@ -6,13 +6,14 @@ import java.util.List;
 
 public interface ICaravanaService {
     Caravana newCaravana(Caravana caravana) throws Exception;
-    List<Caravana> obtenerCaravanasTambo(Long idEmpresa, Long idTambo);
-    List<Caravana> obtenerCaravanasEmpresa(Long idEmpresa);
-    List<Caravana> obtenerCaravanasSinAsignarTambo(Long idEmpresa, Long idTambo);
-    List<Caravana> obtenerCaravanasSinAsignarEmpresa(Long idEmpresa);
-    List<Caravana> obtenerCaravanasAsignadasTambo(Long idEmpresa, Long idTambo);
-    List<Caravana> obtenerCaravanasAsignadasEmpresa(Long idEmpresa);
-    Caravana findById(Long idCaravana);
+    List<Caravana> obtenerCaravanasTambo(Long idEmpresa, Long idTambo)throws Exception;
+    List<Caravana> obtenerCaravanasEmpresa(Long idEmpresa)throws Exception;
+    List<Caravana> obtenerCaravanasSinAsignarTambo(Long idEmpresa, Long idTambo)throws Exception;
+    List<Caravana> obtenerCaravanasSinAsignarEmpresa(Long idEmpresa)throws Exception;
+    List<Caravana> obtenerCaravanasAsignadasTambo(Long idEmpresa, Long idTambo)throws Exception;
+    List<Caravana> obtenerCaravanasAsignadasEmpresa(Long idEmpresa)throws Exception;
+    Caravana findById(Long idCaravana) throws Exception;
     void deleteCaravana(Long idCaravana) throws Exception;
     Caravana guardar(Caravana caravana) throws Exception;
+    boolean existsBtId(Long idCaravana);
 }

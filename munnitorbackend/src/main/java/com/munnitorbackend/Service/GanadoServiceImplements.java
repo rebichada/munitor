@@ -351,4 +351,14 @@ public class GanadoServiceImplements implements IGanadoService {
         return ganadoRepo.existsById(idGanado);
     }
 
+    @Override
+    public boolean eliminarById(Long idGanado) throws Exception {
+        try{
+            ganadoRepo.deleteById(idGanado);
+            return true;
+        }catch (Exception exception){
+            throw new Exception("Error en el servicio del ganado. Error: "+ exception.getMessage());
+        }
+    }
+
 }

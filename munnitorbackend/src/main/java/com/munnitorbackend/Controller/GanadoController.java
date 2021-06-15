@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import sun.net.www.http.HttpCaptureInputStream;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -51,17 +52,49 @@ public class GanadoController {
         }
     }
 
-    /**POST PARA ALMACENAR LOS DATOS DEL SENSOR, EL JSON DEBE SER:
-    {
-     "IdGanado:Long (not null)",
-     "temperatura":Double(permite null),
-     "pasos":Integer(permite null),
-     "cantidadComio":Integer(permite null),
-     "peso":Double(permite null),
-     "comio":boolean (permite null),
-     "fechaDeRegistro:null"
-     }
-     **/
+    @DeleteMapping("/delete/{idGanado}")
+    public ResponseEntity<?> eliminar(@PathVariable String idGanado){
+        try{
+            return new ResponseEntity(ganadoService.eliminarById(Long.parseLong(idGanado)),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{idGanado}")
+    public ResponseEntity<?> getGanado(@PathVariable(value = "idGanado") String idGanado){
+        try{
+            if (ganadoService.obtenerPorId(Long.parseLong(idGanado))!= null){
+                return ResponseEntity.ok(ganadoService.obtenerPorId(Long.parseLong(idGanado)));
+            }
+            return new ResponseEntity("No se encontro este ganado.", HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+
+    //LISTADO DE TODO GANADO QUE PERTENECE A UNA EMPRESA
+    @GetMapping("/verGanadoEmpresa")
+    public ResponseEntity<List<?>> getGanadoEMpresa(@PathVariable(value = "idEmpresa") @Validated String idEmpresa){
+        try{
+            return ResponseEntity.ok(ganadoService.listarPorEmpresa(Long.parseLong(idEmpresa)));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    //LISTADO DE TODO GANADO QUE PERTENECE A UNA EMPRESA PARA DICHO TAMBO
+    @GetMapping("/listar")
+    public ResponseEntity<List<Ganado>> getGanadoEmpresaTambo(@RequestParam(value = "idEmpresa") String idEmpresa,
+                                                              @RequestParam(value = "idTambo") String idTambo) {
+        try{
+            return ResponseEntity.ok(ganadoService.listarPorEmpresaTambo(Long.parseLong(idTambo),Long.parseLong(idEmpresa)));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
     @GetMapping("/datosSensor")
     public String RequestDatosGanado(){
         return "/datosSensor";
@@ -71,6 +104,7 @@ public class GanadoController {
     public ResponseEntity<?> guardarDatosGanado(@RequestBody RequestDatosDelGanadoDTO datosDelGanado){
         try{
             if (!ganadoService.existById(datosDelGanado.getIdGanado())) new ResponseEntity<>("No existe este codigo de ganado: " + datosDelGanado.getIdGanado(), HttpStatus.INTERNAL_SERVER_ERROR);
+
             GanadoDatos datos= modelMapper.map(datosDelGanado, GanadoDatos.class);
 
 
@@ -86,17 +120,24 @@ public class GanadoController {
     }
     @GetMapping("/principal")
     public ResponseEntity<List<?>> getGanadoMasTemperaturaMasCantPasos(@RequestParam(value = "idTambo") String idTambo, @RequestParam(value = "idEmpresa") String idEmpresa){
-        List<GanadoDatos>ganadoDatos;
-        List<ResponseDatosDelGanadoDTO> resultadoGanado;
+
         try {
             //obtengo toodos los ganados de esta empresa y tambo con su ultima temperatura en su ultimo registro
             if(!empresaService.existsById(Long.parseLong(idEmpresa))) return new ResponseEntity("Esta empresa con este codigo: " + idEmpresa + " no se fue encontrado. "  ,HttpStatus.OK);
             if(!tamboService.existsById(Long.parseLong(idTambo))) return new ResponseEntity("Esta Tambo con codigo: " + idTambo + " no fue encontrado.",HttpStatus.OK);
             //obtengo todos los GanadoDatos con la cantidad de pasos en las ultimas 24 hs
-            ganadoDatos= ganadoDatosService.cantidadDePasosInRangeFecha(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
-
+            List<GanadoDatos> ganadoDatos= ganadoDatosService.cantidadDePasosInRangeFecha(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
+            List<GanadoDatos> ganadoDatosUltimasTemperaturasRegistradas= ganadoDatosService.findByUltimaTemperatura(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
             //filtro por el object Ganado y mapeo para solo enviar los datos necesarios
-            resultadoGanado= ganadoDatos.stream()
+
+             ganadoDatos = ganadoDatos.stream()
+                    .filter(l1 -> (ganadoDatosUltimasTemperaturasRegistradas.stream()
+                            .filter(l2 -> l1.getGanado().equals(l1.getGanado()))
+                            .count())<1)
+                    .collect(Collectors.toList());
+            //Predicate<String> notIn2 = s -> ! list2.stream().anyMatch(mc -> s.equals(mc.str));
+            //List<String> list3 = list1.stream().filter(notIn2).collect(Collectors.toList());
+            List<ResponseDatosDelGanadoDTO> resultadoGanado= ganadoDatos.stream()
                     .map(ganadoDatos1 -> modelMapper.map(ganadoDatos1, ResponseDatosDelGanadoDTO.class))
                     .collect(Collectors.toList());
 
@@ -126,39 +167,7 @@ public class GanadoController {
         }
     }
 
-   @GetMapping("/{idGanado}")
-   public ResponseEntity<?> getGanado(@PathVariable(value = "idGanado") String idGanado){
-        try{
-            if (ganadoService.obtenerPorId(Long.parseLong(idGanado))!= null){
-                return ResponseEntity.ok(ganadoService.obtenerPorId(Long.parseLong(idGanado)));
-            }
-            return new ResponseEntity("No se encontro este ganado.", HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-   }
 
-
-    //LISTADO DE TODO GANADO QUE PERTENECE A UNA EMPRESA
-    @GetMapping("/verGanadoEmpresa")
-    public ResponseEntity<List<?>> getGanadoEMpresa(@PathVariable(value = "idEmpresa") @Validated String idEmpresa){
-        try{
-            return ResponseEntity.ok(ganadoService.listarPorEmpresa(Long.parseLong(idEmpresa)));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-   //LISTADO DE TODO GANADO QUE PERTENECE A UNA EMPRESA PARA DICHO TAMBO
-    @GetMapping("/listar")
-    public ResponseEntity<List<Ganado>> getGanadoEmpresaTambo(@RequestParam(value = "idEmpresa") String idEmpresa,
-                                                  @RequestParam(value = "idTambo") String idTambo) {
-        try{
-            return ResponseEntity.ok(ganadoService.listarPorEmpresaTambo(Long.parseLong(idTambo),Long.parseLong(idEmpresa)));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
 
     //LISTADO DE TODO GANADO DE TODAS LAS EMPRESAS
     @GetMapping("/list-all")
