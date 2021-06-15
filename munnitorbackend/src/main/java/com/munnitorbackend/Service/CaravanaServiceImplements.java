@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +67,8 @@ public class CaravanaServiceImplements implements ICaravanaService{
 
     @Override
     public Caravana guardar(Caravana caravana) throws Exception {
+        Date fecha = new Date ();
+        caravana.setFechaImpresion(fecha);
         return caravanaRepo.save(caravana);
     }
 

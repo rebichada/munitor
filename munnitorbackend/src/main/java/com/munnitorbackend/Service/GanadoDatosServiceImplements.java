@@ -20,13 +20,15 @@ public class GanadoDatosServiceImplements implements IGanadoDatosService{
         List<GanadoDatos>ganadoDatos;
         Date fechaDesde;
         Date fechaHasta;
+        List<GanadoDatos> l;
         try{
             Calendar cal = Calendar.getInstance();
             fechaHasta=cal.getTime();
             //le resto un dia
             cal.set(Calendar.DATE, cal.get(Calendar.DATE)-8);
             fechaDesde=cal.getTime();
-            return ganadoDatosRepo.findByPasosInRangeFechas(idTambo,idEmpresa,fechaDesde,fechaHasta);
+            l = ganadoDatosRepo.findByPasosInRangeFechas(idTambo,idEmpresa,fechaDesde,fechaHasta);
+            return l;
         }catch (Exception e){
             throw new Exception((e.getMessage()));
         }
