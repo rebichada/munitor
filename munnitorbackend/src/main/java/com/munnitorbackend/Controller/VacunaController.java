@@ -12,12 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "http://www.rebichada.com.ar:8080")
 @RequestMapping("/vacuna")
 public class VacunaController {
+
+    private static final SimpleDateFormat dateFormat
+            = new SimpleDateFormat("dd-MM-yyyy");
 
     @Autowired
     private IVacunaService vacunaService;
@@ -72,8 +77,8 @@ public class VacunaController {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/empresa/{idEmpresa}")
-    public ResponseEntity<?> obtenerVacunasDentroDeEmpresa(@PathVariable String idEmpresa){
+    @GetMapping("/listar/empresa/{idEmpresa}")
+    public ResponseEntity<List<?>> obtenerVacunasDentroDeEmpresa(@PathVariable String idEmpresa){
         try{
             return new ResponseEntity(vacunaService.obtenerVacunasDentroDeEmpresa(Long.parseLong(idEmpresa)),HttpStatus.OK);
         }catch (Exception e){
@@ -81,8 +86,8 @@ public class VacunaController {
         }
     }
 
-    @GetMapping("/empresa/{idEmpresa}/tambo/{idTambo}")
-    public ResponseEntity<?> obtenerVacunasDentroDeUnaEmpresaEnUnTambo(@PathVariable String idEmpresa,@PathVariable String idTambo){
+    @GetMapping("/listar/empresa/{idEmpresa}/tambo/{idTambo}")
+    public ResponseEntity<List<?>> obtenerVacunasDentroDeUnaEmpresaEnUnTambo(@PathVariable String idEmpresa,@PathVariable String idTambo){
         try{
             return new ResponseEntity(vacunaService.obtenerVacunasDentroDeUnaEmpresaEnUnTambo(Long.parseLong(idEmpresa),Long.parseLong(idTambo)),HttpStatus.OK);
         }catch (Exception e){
@@ -90,7 +95,7 @@ public class VacunaController {
         }
     }
 
-    @GetMapping("/{vacuna}/empresa/{idEmpresa}")
+    @GetMapping("{idVacuna}/empresa/{idEmpresa}")
     public ResponseEntity<?> obtenerVacunaDentroDeEmpresa(@PathVariable String idVacuna,@PathVariable String idEmpresa){
         try{
             return new ResponseEntity(vacunaService.obtenerVacunaDentroDeEmpresa(Long.parseLong(idEmpresa),Long.parseLong(idVacuna)),HttpStatus.OK);
@@ -99,8 +104,8 @@ public class VacunaController {
         }
     }
 
-    @GetMapping("/ganado/{idGanado}")
-    public ResponseEntity<?> obtenerVacunasAplicadasAlGanado(@PathVariable String idGanado){
+    @GetMapping("/listar/ganado/{idGanado}")
+    public ResponseEntity<List<?>> obtenerVacunasAplicadasAlGanado(@PathVariable String idGanado){
         try{
             return new ResponseEntity(vacunaService.obtenerVacunasAplicadasAlGanado(Long.parseLong(idGanado)),HttpStatus.OK);
         }catch (Exception e){
@@ -108,19 +113,19 @@ public class VacunaController {
         }
     }
 
-    @GetMapping("/ganado/{idGanado}")
-    public ResponseEntity<List<?>> obtenerVacunasEnUnRangoDeFechasParaUnGanado(@PathVariable String idGanado,@RequestParam Date fechaDesde,@RequestParam Date FechaHasta){
+    @GetMapping("/listar/ganado/{idGanado}/por_fecha")
+    public ResponseEntity<List<?>> obtenerVacunasEnUnRangoDeFechasParaUnGanado(@PathVariable String idGanado,@RequestParam String fechaDesde,@RequestParam String fechaHasta){
         try{
-            return new ResponseEntity(vacunaService.obtenerVacunasEnUnRangoDeFechasParaUnGanado(Long.parseLong(idGanado),fechaDesde,FechaHasta),HttpStatus.OK);
+            return new ResponseEntity(vacunaService.obtenerVacunasEnUnRangoDeFechasParaUnGanado(Long.parseLong(idGanado),dateFormat.parse(fechaDesde),dateFormat.parse(fechaHasta)),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/{nombre}/empresa/{idEmpresa}")
-    public ResponseEntity<?> obtenerVacunasEnUnaFechaParaUnGanado(@PathVariable String idGanado,@RequestParam Date fecha){
+    @GetMapping("/listar/{nombre}/empresa/{idEmpresa}")
+    public ResponseEntity<List<?>> obtenerVacunasEnUnaFechaParaUnGanado(@PathVariable String idGanado,@RequestParam String fecha){
         try{
-            return new ResponseEntity(vacunaService.obtenerVacunasEnUnaFechaParaUnGanado(Long.parseLong(idGanado),fecha),HttpStatus.OK);
+            return new ResponseEntity(vacunaService.obtenerVacunasEnUnaFechaParaUnGanado(Long.parseLong(idGanado),dateFormat.parse(fecha)),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import sun.net.www.http.HttpCaptureInputStream;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -146,15 +144,14 @@ public class GanadoController {
             List<GanadoDatos> ganadoDatos= ganadoDatosService.cantidadDePasosInRangeFecha(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
             List<GanadoDatos> ganadoDatosUltimasTemperaturasRegistradas= ganadoDatosService.findByUltimaTemperatura(Long.parseLong(idTambo),Long.parseLong(idEmpresa));
             //filtro por el object Ganado y mapeo para solo enviar los datos necesarios
-
+            List<ResponseDatosDelGanadoDTO> resultadoGanado;
              ganadoDatos = ganadoDatos.stream()
-                    .filter(l1 -> (ganadoDatosUltimasTemperaturasRegistradas.stream()
-                            .filter(l2 -> l1.getGanado().equals(l1.getGanado()))
-                            .count())<1)
-                    .collect(Collectors.toList());
+                    .filter(l1 -> (ganadoDatosUltimasTemperaturasRegistradas.stream().anyMatch(l2 -> l2.getGanado().getId().equals(l1.getGanado().getId())))).collect(Collectors.toList());
+                            //.count())<1)
+
             //Predicate<String> notIn2 = s -> ! list2.stream().anyMatch(mc -> s.equals(mc.str));
             //List<String> list3 = list1.stream().filter(notIn2).collect(Collectors.toList());
-            List<ResponseDatosDelGanadoDTO> resultadoGanado= ganadoDatos.stream()
+            resultadoGanado= ganadoDatos.stream()
                     .map(ganadoDatos1 -> modelMapper.map(ganadoDatos1, ResponseDatosDelGanadoDTO.class))
                     .collect(Collectors.toList());
 
