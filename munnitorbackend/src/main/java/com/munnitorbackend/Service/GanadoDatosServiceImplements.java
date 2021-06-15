@@ -17,6 +17,7 @@ public class GanadoDatosServiceImplements implements IGanadoDatosService{
 
     @Override
     public List<GanadoDatos> findByUltimaTemperatura(Long idTambo, Long idEmpresa) throws Exception {
+<<<<<<< HEAD
         Date fechaDesde;
         try{
             Calendar cal = Calendar.getInstance();
@@ -24,6 +25,15 @@ public class GanadoDatosServiceImplements implements IGanadoDatosService{
             cal.set(Calendar.DATE, cal.get(Calendar.DATE)-8);
             fechaDesde=cal.getTime();
             return ganadoDatosRepo.findByUltimaTemperatura(idTambo,idEmpresa,fechaDesde);
+=======
+        Date fecha;
+        try{
+            Calendar cal = Calendar.getInstance();
+            //le resto un dia
+            cal.set(Calendar.DATE, cal.get(Calendar.DATE)-8);
+            fecha=cal.getTime();
+            return ganadoDatosRepo.findByUltimaTemperatura(idTambo,idEmpresa,fecha);
+>>>>>>> developJulito1998
         }catch (Exception e){
             throw new Exception("Ocurrio un error en el servicio de Datos del Ganado.");
         }

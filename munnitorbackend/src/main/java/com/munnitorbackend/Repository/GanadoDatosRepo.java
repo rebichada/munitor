@@ -32,6 +32,7 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
     List<GanadoDatos> findByPasosInRangeFechas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,
                                          @Param("fecha_desde")Date fechaDesde,@Param("fecha_hasta")Date fechaHasta);
 
+<<<<<<< HEAD
     @Query(value = "SELECT distinct(gd.id_ganado), gd.id_ganado_datos as id, gd.* " +
                     "FROM ganado_datos gd WHERE gd.id_ganado IN " +
                         "(SELECT g_d.id_ganado FROM ganado_datos g_d " +
@@ -41,6 +42,17 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
                         "GROUP BY g_d.id_ganado " +
                             "having MAX(g_d.fecha_de_registro)>:fecha) ORDER BY gd.id_ganado", nativeQuery = true)
     List<GanadoDatos> findByUltimaTemperatura(@Param("id_tambo") Long idTambo, @Param("id_empresa")Long id_empresa, @Param("fecha")Date fecha);
+=======
+    @Query(value = "SELECT distinct (gd.id_ganado), gd.id_ganado_datos as id, gd.* " +
+                    "FROM ganado_datos gd WHERE gd.id_ganado_datos IN " +
+                        "(SELECT g_d.id_ganado_datos FROM ganado_datos g_d " +
+                        "INNER JOIN ganado g ON g_d.id_ganado=g.id_ganado " +
+                        "INNER JOIN tambos t ON t.id_tambo=g.id_tambo INNER JOIN empresas e ON t.id_empresa=e.id_empresa " +
+                        "WHERE e.id_empresa=:id_empresa AND t.id_tambo=:id_tambo AND g_d.temperatura is not null " +
+                        "GROUP BY g_d.id_ganado_datos " +
+                            "having MAX(g_d.fecha_de_registro)>:fecha) order by gd.id_ganado", nativeQuery = true)
+    List<GanadoDatos> findByUltimaTemperatura(@Param("id_tambo") Long idTambo, @Param("id_empresa")Long id_empresa,@Param("fecha")Date fecha);
+>>>>>>> developJulito1998
 
     //obtener la temperatura de vacas entre ciertos grados
     @Query("SELECT gd FROM Ganado g INNER JOIN Tambo t ON g.tambo.id=t.id " +
