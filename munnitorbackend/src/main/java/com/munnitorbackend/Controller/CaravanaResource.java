@@ -31,6 +31,7 @@ public class CaravanaResource {
     public ResponseEntity<Caravana> guardarDatosCaravana(@RequestBody CaravanaDTO caravanaDTO){
         try{
             Caravana datos= modelMapper.map(caravanaDTO, Caravana.class);
+            datos.setFechaImpresion(caravanaDTO.getFechaImpresionInDateConverted());
             Caravana caravana = caravanaService.newCaravana(datos);
             return ResponseEntity.status(HttpStatus.OK).body(caravana);
         }catch (Exception e){

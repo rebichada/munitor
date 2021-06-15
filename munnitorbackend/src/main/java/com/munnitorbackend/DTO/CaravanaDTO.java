@@ -1,21 +1,30 @@
 package com.munnitorbackend.DTO;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CaravanaDTO implements Serializable {
 
+    private static final SimpleDateFormat dateFormat
+            = new SimpleDateFormat("dd-MM-yyyy");
+    private String id;
+    private String idEmpresa;
     private String cuig;
     private char colorCaravana;
+    private char digitoVerificador;
     private String idInternacional;
     private String numeroManejo;
     private String numeroRenspa;
     private String marcaFechaProduccion;
-    private Date fechaImpresion;
+    private String fechaImpresion;
     private String numeroImpresor;
     private String rangoImpresor;
 
-    public CaravanaDTO(String cuig, char colorCaravana, String idInternacional, String numeroManejo, String numeroRenspa, String marcaFechaProduccion, Date fechaImpresion, String numeroImpresor, String rangoImpresor) {
+    public CaravanaDTO(String id,String idEmpresa,String cuig, char colorCaravana, String idInternacional, String numeroManejo, String numeroRenspa, String marcaFechaProduccion, String fechaImpresion, char digitoVerificador, String numeroImpresor, String rangoImpresor) {
+        this.id=id;
+        this.idEmpresa=idEmpresa;
         this.cuig = cuig;
         this.colorCaravana = colorCaravana;
         this.idInternacional = idInternacional;
@@ -23,8 +32,53 @@ public class CaravanaDTO implements Serializable {
         this.numeroRenspa = numeroRenspa;
         this.marcaFechaProduccion = marcaFechaProduccion;
         this.fechaImpresion = fechaImpresion;
+        this.digitoVerificador=digitoVerificador;
         this.numeroImpresor = numeroImpresor;
         this.rangoImpresor = rangoImpresor;
+    }
+
+    public CaravanaDTO(){
+
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(String idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    public char getDigitoVerificador() {
+        return digitoVerificador;
+    }
+
+    public void setDigitoVerificador(char digitoVerificador) {
+        this.digitoVerificador = digitoVerificador;
+    }
+
+    public String getFechaImpresion() {
+        return fechaImpresion;
+    }
+
+    public void setFechaImpresion(String fechaImpresion) {
+        this.fechaImpresion = fechaImpresion;
+    }
+
+    public Date getFechaImpresionInDateConverted() throws ParseException {
+        return dateFormat.parse(this.fechaImpresion);
+    }
+
+    public void setFechaImpresionInDate(Date date) {
+        this.fechaImpresion = dateFormat.format(date);
     }
 
     public String getCuig() {
@@ -73,14 +127,6 @@ public class CaravanaDTO implements Serializable {
 
     public void setMarcaFechaProduccion(String marcaFechaProduccion) {
         this.marcaFechaProduccion = marcaFechaProduccion;
-    }
-
-    public Date getFechaImpresion() {
-        return fechaImpresion;
-    }
-
-    public void setFechaImpresion(Date fechaImpresion) {
-        this.fechaImpresion = fechaImpresion;
     }
 
     public String getNumeroImpresor() {

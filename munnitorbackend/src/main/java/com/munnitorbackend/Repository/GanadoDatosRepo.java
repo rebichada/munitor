@@ -26,8 +26,8 @@ public interface GanadoDatosRepo extends JpaRepository<GanadoDatos,Long> {
                             "INNER JOIN empresas e ON e.id_empresa=t.id_empresa " +
                             "WHERE e.id_empresa=:id_empresa AND t.id_tambo =:id_tambo " +
                             "AND gd2.bool_movimiento=true " +
-            "AND gd2.fecha_de_registro between :fecha_desde and :fecha_hasta group by gd2.id_ganado_datos) " +
-                "gd_obtenidos ON gd_obtenidos.id_ganado_datos=gd.id_ganado_datos" +
+            "AND gd2.fecha_de_registro between :fecha_desde and :fecha_hasta group by gd2.id_ganado_datos) as " +
+                "gd_obtenidos ON gd_obtenidos.id_ganado_datos=gd.id_ganado_datos " +
                             " ORDER BY gd.id_ganado", nativeQuery = true)
     List<GanadoDatos> findByPasosInRangeFechas(@Param("id_tambo") Long id_tambo,@Param("id_empresa") Long id_empresa,
                                          @Param("fecha_desde")Date fechaDesde,@Param("fecha_hasta")Date fechaHasta);

@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@CrossOrigin(origins = "http://www.rebichada.com.ar:8080")
-@RequestMapping("/caravana")
+//@RestController
+//@CrossOrigin(origins = "http://www.rebichada.com.ar:8080")
+//@RequestMapping("/caravana")
 public class CaravanaController {
 
     @Autowired

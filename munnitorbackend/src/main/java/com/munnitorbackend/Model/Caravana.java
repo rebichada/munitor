@@ -7,11 +7,12 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "caravanas")
-public class Caravana {
+public class Caravana implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +46,7 @@ public class Caravana {
     @Column(name = "marca_fecha_produccion")
     private String marcaFechaProduccion;
 
-    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "fecha_impresion",nullable = false)
     private Date fechaImpresion;
 
