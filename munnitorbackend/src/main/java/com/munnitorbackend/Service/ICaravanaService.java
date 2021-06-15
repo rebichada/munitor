@@ -16,4 +16,5 @@ public interface ICaravanaService {
     void deleteCaravana(Long idCaravana) throws Exception;
     Caravana guardar(Caravana caravana) throws Exception;
     boolean existsBtId(Long idCaravana);
+    List<Caravana> listaAll();
 }

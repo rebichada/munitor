@@ -116,5 +116,10 @@ public class CaravanaServiceImplements implements ICaravanaService{
         return caravanaRepo.existsById(idCaravana);
     }
 
+    @Override
+    public List<Caravana> listaAll() {
+        return caravanaRepo.findAll();
+    }
+
 
 }
